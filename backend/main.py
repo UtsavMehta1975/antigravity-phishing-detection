@@ -40,10 +40,16 @@ app.add_middleware(
 # Global Pipeline Instance
 pipeline = DetectionPipeline()
 
-# Ensure Database is initialized on startup
+# Ensure Database is initialized and baseline feeds seeded on startup
 @app.on_event("startup")
 async def startup_event():
     init_db()
+    try:
+        from scripts.ingest_datasets import ingest_url_dataset, ingest_email_dataset, SAMPLE_URLS_CSV, SAMPLE_EMAILS_JSON
+        ingest_url_dataset(SAMPLE_URLS_CSV)
+        ingest_email_dataset(SAMPLE_EMAILS_JSON)
+    except Exception:
+        pass
 
 # Models
 class URLScanRequest(BaseModel):
