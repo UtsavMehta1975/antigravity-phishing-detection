@@ -1,0 +1,38 @@
+[
+  {
+    "id": "eml_bench_01",
+    "subject": "URGENT: Microsoft 365 Account Password Expired",
+    "sender": "Microsoft Support <admin@sec-m365-verify.top>",
+    "reply_to": "attacker@evil-portal.xyz",
+    "spf": "FAIL",
+    "dkim": "FAIL",
+    "dmarc": "FAIL",
+    "target_url": "http://login.microsoft.security-verify.top/auth",
+    "label": "phishing",
+    "indicators": ["SPF_FAIL", "DISPLAY_NAME_SPOOFING", "REPLY_TO_MISMATCH", "PSYCHOLOGICAL_URGENCY"]
+  },
+  {
+    "id": "eml_bench_02",
+    "subject": "Incoming Wire Confirmation - PDF Attached",
+    "sender": "Accounting <finance@partner-company.com>",
+    "reply_to": "finance@partner-company.com",
+    "spf": "PASS",
+    "dkim": "PASS",
+    "dmarc": "PASS",
+    "target_url": "https://partner-company.com/portal/invoices",
+    "label": "benign",
+    "indicators": ["SPF_PASS", "DKIM_PASS"]
+  },
+  {
+    "id": "eml_bench_03",
+    "subject": "Critical: Review Shared Document via QR Code",
+    "sender": "DocuSign System <service@docusign-envelope.stream>",
+    "reply_to": "collector@harvest-hub.lat",
+    "spf": "FAIL",
+    "dkim": "NONE",
+    "dmarc": "FAIL",
+    "target_url": "http://docusign-envelope-review.stream/view",
+    "label": "quishing",
+    "indicators": ["QUISHING_ATTACK_VECTOR", "BRAND_IMPERSONATION", "ABUSED_TLD"]
+  }
+]

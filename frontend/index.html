@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AntiGravity | Phishing Email & URL Provenance Engine</title>
+  <meta name="description" content="Production-Grade Phishing Email and URL Detection Platform with NIST Explainable AI and Evidence Graph Provenance Chains.">
+  
+  <!-- Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation & Hardware Telemetry Ribbon -->
+  <header>
+    <div class="header-container">
+      <div class="brand-wrapper">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">AntiGravity Defense</h1>
+          <div class="brand-subtitle">PROVENANCE & NIST XAI ENGINE • PROBLEM P12</div>
+        </div>
+      </div>
+
+      <!-- Dual-Layer View Switcher -->
+      <div class="view-switcher">
+        <button id="viewRecipientBtn" class="view-btn active" title="Switch to Recipient-Friendly View">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Recipient View
+        </button>
+        <button id="viewAnalystBtn" class="view-btn" title="Switch to Deep Technical Forensics">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+          Analyst View
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Scanner Console Area -->
+    <section class="glass-panel scanner-console">
+      <div class="scan-nav-tabs">
+        <button class="tab-btn active" data-pane="emlPane">MIME Email (.eml)</button>
+        <button class="tab-btn" data-pane="urlPane">URL Deep Analysis</button>
+        <button class="tab-btn" data-pane="attPane">Attachment Smuggling (SVG/PDF/DOCX)</button>
+      </div>
+
+      <!-- Email Scan Pane -->
+      <div id="emlPane" class="pane active">
+        <div id="emlDropzone" class="dropzone">
+          <input type="file" id="emlFileInput" accept=".eml,.msg,.txt" style="display: none;">
+          <div class="dropzone-icon">📥</div>
+          <h3>Drag & Drop Raw MIME Email (.eml) or Click to Browse</h3>
+          <p class="text-dim" style="font-size: 0.85rem; margin-top: 0.4rem;">
+            Performs Unicode/Tag-smuggling normalization, SPF/DKIM authentication, anchor mismatch detection, Quishing decode, and attachment extraction.
+          </p>
+        </div>
+      </div>
+
+      <!-- URL Scan Pane -->
+      <div id="urlPane" class="pane">
+        <div class="url-input-group">
+          <input type="url" id="urlInput" class="url-input" placeholder="Enter suspicious or destination URL (e.g., http://login-microsoft-verify.top/auth)">
+          <button id="scanUrlBtn" class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            Analyze URL
+          </button>
+        </div>
+      </div>
+
+      <!-- Attachment Scan Pane -->
+      <div id="attPane" class="pane">
+        <div id="attDropzone" class="dropzone">
+          <input type="file" id="attFileInput" accept=".svg,.html,.htm,.pdf,.docx,.docm,.png,.jpg" style="display: none;">
+          <div class="dropzone-icon">📎</div>
+          <h3>Upload Attachment for Smuggling, Quishing & Macro Inspection</h3>
+          <p class="text-dim" style="font-size: 0.85rem; margin-top: 0.4rem;">
+            Specifically detects HTML/SVG Smuggling (Blob URLs, &lt;foreignObject&gt;, base64 decode), PDF /JavaScript triggers, and Office remote templates.
+          </p>
+        </div>
+      </div>
+
+      <!-- 1-Click Interactive Test Samples -->
+      <div class="sample-pills">
+        <span>Load 1-Click Test Scenarios:</span>
+        <span class="sample-chip" data-sample="svg_smuggling">⚡ SVG Smuggling Attack (.eml)</span>
+        <span class="sample-chip" data-sample="brand_typosquat">⚡ Microsoft Typosquatting (URL)</span>
+        <span class="sample-chip" data-sample="dga_entropy">⚡ High-Entropy DGA Domain (URL)</span>
+        <span class="sample-chip" data-sample="captcha_wall">⚡ Cloudflare Evasion Wall (UNKNOWN)</span>
+        <span class="sample-chip" data-sample="clean_email">🛡️ Legitimate Corporate Email</span>
+      </div>
+
+      <!-- Loading Indicator -->
+      <div id="scanLoadingIndicator" style="display: none; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-cyan);">
+        <div class="badge-pulse"></div>
+        <span id="loadingMsg">Processing across 12 Apple Silicon CPU cores...</span>
+      </div>
+    </section>
+
+    <!-- Scan Results Viewport (Hidden until a scan completes) -->
+    <div id="resultsContainer" style="display: none;">
+
+      <!-- ================================================================= -->
+      <!-- LAYER 1: RECIPIENT VIEW -->
+      <!-- ================================================================= -->
+      <section id="recipientViewContainer" class="recipient-view-container active">
+        <div id="recipientCard" class="recipient-card crimson">
+          <div id="recipientBadge" class="risk-badge-large crimson">Critical Security Threat</div>
+          <h2 id="recipientTitle" class="recipient-headline">Suspicious Email Alert</h2>
+          <p id="recipientReason" class="recipient-reason">
+            This message attempts to deceive you by impersonating Microsoft while steering links to an unregistered domain.
+          </p>
+
+          <h4 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); margin-bottom: 0.75rem;">
+            Why was this flagged?
+          </h4>
+          <ul id="recipientReasonsList" class="recipient-reasons-list">
+            <!-- Populated dynamically -->
+          </ul>
+
+          <div class="glass-panel" style="padding: 1.25rem; margin-bottom: 1.5rem; background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.06);">
+            <div style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--accent-cyan); margin-bottom: 0.25rem;">RECOMMENDED SAFETY ACTION</div>
+            <div id="recipientActionPrompt" style="font-weight: 600; color: #fff;">
+              Do NOT click links, download attachments, or enter credentials. Report and isolate.
+            </div>
+          </div>
+
+          <div class="recipient-actions">
+            <button id="btnSafeReport" class="btn-report-safe">
+              🛡️ Submit Safe Report to SOC
+            </button>
+            <button id="btnQuarantine" class="btn-quarantine">
+              🚫 Quarantine & Block Sender
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- LAYER 2: ANALYST VIEW -->
+      <!-- ================================================================= -->
+      <section id="analystViewContainer" class="analyst-view-container">
+        
+        <!-- Top Status Banner -->
+        <div class="glass-panel" style="padding: 1rem 1.5rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+          <div style="display: flex; gap: 2rem; align-items: center;">
+            <div>
+              <span class="inspector-label">SOC Verdict</span>
+              <div id="analystVerdictVal" style="font-size: 1.2rem; font-weight: 800; font-family: var(--font-mono);">PHISHING</div>
+            </div>
+            <div>
+              <span class="inspector-label">Confidence Score</span>
+              <div id="analystConfidenceVal" style="font-size: 1.2rem; font-weight: 800; font-family: var(--font-mono); color: var(--accent-cyan);">95.0%</div>
+            </div>
+          </div>
+          <div>
+            <button id="btnOpenOverrideModal" class="btn-secondary">
+              ✏️ Report False Positive / Override
+            </button>
+          </div>
+        </div>
+
+        <!-- Evidence Graph and Inspector Grid -->
+        <div class="analyst-grid">
+          <!-- Interactive Directed Evidence Graph -->
+          <div class="glass-panel graph-container">
+            <div class="graph-header">
+              <div class="graph-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><line x1="9" y1="6" x2="15" y2="6"/><line x1="6" y1="9" x2="6" y2="15"/><line x1="18" y1="9" x2="18" y2="15"/></svg>
+                Evidence Graph Provenance Chain
+              </div>
+              <div class="graph-legend">
+                <span><span class="legend-dot" style="background:#00f2fe;"></span>Benign</span>
+                <span><span class="legend-dot" style="background:#ffb300;"></span>Caution</span>
+                <span><span class="legend-dot" style="background:#ff3366;"></span>Malicious / Smuggling</span>
+                <span><span class="legend-dot" style="background:#a855f7;"></span>Unknown / Evasion</span>
+              </div>
+            </div>
+            
+            <canvas id="graphCanvas"></canvas>
+            <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 0.5rem; font-family: var(--font-mono); text-align: center;">
+              Interactive: Drag nodes to rearrange • Glowing red trail indicates Critical Risk Path • Click node to inspect
+            </div>
+          </div>
+
+          <!-- Selected Node Deep Inspector -->
+          <div class="glass-panel node-inspector">
+            <div class="inspector-title">Provenance Entity Inspector</div>
+            <div id="nodeInspectorContent">
+              <p class="text-dim" style="font-size: 0.85rem;">Click any node in the graph to inspect its MIME headers, entropy score, or smuggling payloads.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Threat Intelligence & Verification Walls Grid -->
+        <div class="glass-panel" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+          <h3 style="font-size: 1rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 0.75rem;">
+            Threat Intelligence & Evasion Wall Feeds
+          </h3>
+          <div id="threatFeedGrid" class="threat-feed-matrix">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- NIST Four Principles Explainable AI (XAI) Report -->
+        <div class="glass-panel xai-nist-card">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <h3 style="font-size: 1.1rem; font-weight: 700;">
+              NIST Explainable AI (XAI) Forensic Breakdown
+            </h3>
+            <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-cyan); background: rgba(0,242,254,0.1); padding: 4px 8px; border-radius: 4px;">
+              NIST SP 1270 COMPLIANT
+            </span>
+          </div>
+
+          <div class="nist-grid">
+            <!-- Principle 1: Explanation -->
+            <div class="nist-pillar">
+              <div class="pillar-name">1. Explanation</div>
+              <p id="nistExplanation" class="pillar-desc"></p>
+            </div>
+
+            <!-- Principle 2: Meaningfulness -->
+            <div class="nist-pillar">
+              <div class="pillar-name">2. Meaningfulness</div>
+              <p id="nistMeaningfulness" class="pillar-desc"></p>
+            </div>
+
+            <!-- Principle 3: Accuracy -->
+            <div class="nist-pillar">
+              <div class="pillar-name">3. Accuracy & Telemetry</div>
+              <pre id="nistAccuracy" class="pillar-desc" style="font-family: var(--font-mono); font-size: 0.75rem; white-space: pre-wrap;"></pre>
+            </div>
+
+            <!-- Principle 4: Knowledge Limits -->
+            <div class="nist-pillar">
+              <div class="pillar-name">4. Knowledge Limits</div>
+              <p id="nistLimits" class="pillar-desc" style="color: #ffb300;"></p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+
+    <!-- Auditable Scans & Override Logs -->
+    <section class="glass-panel audit-section">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Auditable Provenance & Override Log</h3>
+        <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-dim);">SQLite WAL Storage</span>
+      </div>
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>Scan ID</th>
+            <th>Type</th>
+            <th>Target / Subject</th>
+            <th>Verdict</th>
+            <th>Confidence</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody id="auditTableBody">
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Feedback & Allow-Override Modal -->
+  <div id="overrideModal" class="modal-overlay">
+    <div class="modal-box">
+      <h3 class="modal-title">Record Analyst Override</h3>
+      <p class="text-dim" style="font-size: 0.85rem; margin-bottom: 1.25rem;">
+        Provide auditable justification for overriding automated classifier verdicts.
+      </p>
+      <form id="overrideForm">
+        <input type="hidden" id="modalScanId">
+        <div class="form-group">
+          <label>Target Identifier</label>
+          <input type="text" id="modalTarget" class="form-control" readonly>
+        </div>
+        <div class="form-group">
+          <label>Feedback Classification</label>
+          <select id="modalFeedbackType" class="form-control">
+            <option value="false_positive">False Positive (Flagged as threat, but actually benign)</option>
+            <option value="false_negative">False Negative (Marked clean, but actually malicious)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>New Override Verdict</label>
+          <select id="modalOverrideVerdict" class="form-control">
+            <option value="BENIGN">BENIGN (Safe Override)</option>
+            <option value="PHISHING">PHISHING (Threat Override)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Analyst Forensic Notes</label>
+          <textarea id="modalAnalystNotes" class="form-control" rows="3" placeholder="Explain the rationale behind this override..." required></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+          <button type="button" id="modalCloseBtn" class="btn-secondary">Cancel</button>
+          <button type="submit" class="btn-primary">Save Auditable Override</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

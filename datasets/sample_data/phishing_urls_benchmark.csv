@@ -1,0 +1,16 @@
+url,label,category,source
+http://login.microsoft.security-verify.top/auth,1,brand_impersonation,kaggle_phishing_corpus
+https://paypal.account-resolve-security.xyz/login,1,brand_impersonation,kaggle_phishing_corpus
+http://192.168.1.100/admin/invoice.svg,1,ip_host,kaggle_phishing_corpus
+http://docusign-envelope-review.stream/view,1,suspicious_tld,kaggle_phishing_corpus
+https://appleid.apple.com.verify-billing.cfd/signin,1,subdomain_spoofing,kaggle_phishing_corpus
+https://accounts.google.com/ServiceLogin,0,benign,kaggle_phishing_corpus
+https://github.com/login,0,benign,kaggle_phishing_corpus
+https://microsoft.com/en-us,0,benign,kaggle_phishing_corpus
+https://www.paypal.com/signin,0,benign,kaggle_phishing_corpus
+https://amazon.com/gp/css/homepage.html,0,benign,kaggle_phishing_corpus
+http://chase-bank-verify-mfa.lat/login.php,1,credential_harvest,kaggle_phishing_corpus
+http://netflix-billing-update.buzz/prompt,1,urgency_pretext,kaggle_phishing_corpus
+http://wellsfargo-session-renew.sbs/auth,1,brand_impersonation,kaggle_phishing_corpus
+https://wikipedia.org/wiki/Phishing,0,benign,kaggle_phishing_corpus
+https://cloudflare.com,0,benign,kaggle_phishing_corpus
