@@ -44,16 +44,17 @@ def main():
     except Exception as e:
         print(f"[!] Dataset baseline note: {e}")
 
-    print("\n[✓] System initialized successfully.")
-    print("[✓] Serving Dual-Layer UI & API at: http://localhost:8000")
-    print("[✓] OpenAPI / Swagger Docs at     : http://localhost:8000/docs")
+    port = int(os.environ.get("PORT", 1511))
+    print(f"\n[✓] System initialized successfully.")
+    print(f"[✓] Serving Dual-Layer UI & API at: http://localhost:{port}")
+    print(f"[✓] OpenAPI / Swagger Docs at     : http://localhost:{port}/docs")
     print("=" * 72 + "\n")
 
     # 3. Start Uvicorn Server
     uvicorn.run(
         "backend.main:app",
         host="0.0.0.0",
-        port=8000,
+        port=port,
         reload=False,
         workers=1,
         log_level="info"
