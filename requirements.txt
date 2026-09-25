@@ -18,3 +18,4 @@ qrcode>=7.4.2
 psutil>=5.9.0
 pytest>=8.2.0
 pytest-asyncio>=0.23.0
+scikit-learn>=1.4.0

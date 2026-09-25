@@ -20,12 +20,16 @@ from backend.threat_intel.feed_manager import ThreatFeedManager
 from backend.graph_engine import EvidenceGraphBuilder
 from backend.xai_engine import XAIEngine
 from backend.database import save_scan
+from backend.ai_engine.ml_classifier import MLURLClassifier
+from backend.ai_engine.llm_advisor import AISecurityAdvisor
 
 class DetectionPipeline:
     def __init__(self):
         self.executor = ThreadPoolExecutor(max_workers=RECOMMENDED_WORKERS)
         self.quishing_decoder = QuishingDecoder()
         self.threat_manager = ThreatFeedManager()
+        self.ml_classifier = MLURLClassifier()
+        self.ai_advisor = AISecurityAdvisor()
 
     async def analyze_email(self, raw_eml_bytes: bytes) -> Dict[str, Any]:
         scan_id = f"scan_{uuid.uuid4().hex[:10]}"
@@ -180,7 +184,14 @@ class DetectionPipeline:
             evasion_techniques=list(set(evasion_techniques))
         )
 
-        # 9. Clean up internal fields for serialization
+        # 9. AI Social Engineering & Pretext Copilot Analysis
+        ai_copilot = self.ai_advisor.analyze_social_engineering(
+            text=f"{email_data.get('subject', '')} {email_data.get('body_plain', '')}",
+            indicators=[a.get("category", "") for a in all_anomalies]
+        )
+        xai_payload["recipient_view"]["ai_pretext"] = ai_copilot.get("primary_pretext_category")
+        xai_payload["recipient_view"]["ai_manipulation_score"] = ai_copilot.get("manipulation_score")
+
         clean_attachments = []
         for att in attachment_results:
             clean_att = {k: v for k, v in att.items() if not k.startswith("_")}
@@ -197,6 +208,7 @@ class DetectionPipeline:
             "attachments": clean_attachments,
             "quishing": quishing_results,
             "urls": url_results,
+            "ai_copilot": ai_copilot,
             "hardware_accel": {"m4_cores": RECOMMENDED_WORKERS, "device": TORCH_DEVICE},
             **xai_payload["analyst_view"]
         }
@@ -258,6 +270,15 @@ class DetectionPipeline:
         if intel.get("destination_status") == "UNKNOWN":
             url_feat["risk_score"] = max(url_feat["risk_score"], 65.0)
 
+        # AI & Machine Learning Evaluation
+        ml_prediction = self.ml_classifier.predict(raw_url)
+        ai_copilot = self.ai_advisor.analyze_social_engineering(
+            text=raw_url,
+            indicators=[a.get("category", "") for a in url_feat.get("anomalies", [])]
+        )
+        if ml_prediction.get("phishing_probability", 0.0) >= 65.0:
+            url_feat["risk_score"] = max(url_feat["risk_score"], ml_prediction["phishing_probability"])
+
         # Build Graph
         evidence_graph = EvidenceGraphBuilder.build_from_url_analysis(url_feat)
         graph_dict = evidence_graph.to_dict()
@@ -272,11 +293,15 @@ class DetectionPipeline:
             destination_status=url_feat.get("destination_status", "ACTIVE"),
             evasion_techniques=evasions
         )
+        xai_payload["recipient_view"]["ai_pretext"] = ai_copilot.get("primary_pretext_category")
+        xai_payload["recipient_view"]["ai_manipulation_score"] = ai_copilot.get("manipulation_score")
 
         analyst_data = {
             "url_features": url_feat,
             "threat_matches": intel.get("threat_matches", []),
             "rdap": intel.get("rdap", {}),
+            "ml_prediction": ml_prediction,
+            "ai_copilot": ai_copilot,
             "hardware_accel": {"m4_cores": RECOMMENDED_WORKERS, "device": TORCH_DEVICE},
             **xai_payload["analyst_view"]
         }
@@ -341,9 +366,18 @@ class DetectionPipeline:
             evasion_techniques=evasions
         )
 
+        # AI Social Engineering & Pretext Copilot Analysis
+        ai_copilot = self.ai_advisor.analyze_social_engineering(
+            text=f"{filename} {' '.join(str(v) for v in clean_att.values() if isinstance(v, str))}",
+            indicators=[a.get("category", "") for a in clean_att.get("anomalies", [])]
+        )
+        xai_payload["recipient_view"]["ai_pretext"] = ai_copilot.get("primary_pretext_category")
+        xai_payload["recipient_view"]["ai_manipulation_score"] = ai_copilot.get("manipulation_score")
+
         analyst_data = {
             "attachment_features": clean_att,
             "quishing_findings": quishing_res,
+            "ai_copilot": ai_copilot,
             **xai_payload["analyst_view"]
         }
 

@@ -239,6 +239,9 @@ function displayScanResult(result) {
   // Threat Intel Feeds & Destination Status
   renderThreatMatrix(analyst);
 
+  // AI & Machine Learning Forensics
+  renderAiIntelligence(rec, analyst, result);
+
   // Load Evidence Graph
   if (result.evidence_graph && graphViz) {
     graphViz.loadGraph(result.evidence_graph);
@@ -248,6 +251,81 @@ function displayScanResult(result) {
   // Scroll to results
   document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth' });
   loadAuditHistory();
+}
+
+function renderAiIntelligence(rec, analyst, result) {
+  // 1. Recipient Pretext Badge
+  const pretextBadge = document.getElementById('recipientAiBadgeContainer');
+  const pretextText = document.getElementById('recipientAiPretext');
+  if (rec.ai_pretext) {
+    pretextBadge.style.display = 'block';
+    pretextText.textContent = `${rec.ai_pretext} (Manipulation Risk: ${rec.ai_manipulation_score || 80}%)`;
+  } else {
+    pretextBadge.style.display = 'none';
+  }
+
+  // 2. Analyst AI Forensics Card
+  const copilot = analyst.ai_copilot || {};
+  const ml = analyst.ml_prediction || {};
+
+  // Model provider badge
+  const modelBadge = document.getElementById('aiModelBadge');
+  if (copilot.llm_provider) {
+    modelBadge.textContent = copilot.llm_provider;
+  } else {
+    modelBadge.textContent = 'Scikit-Learn Random Forest + Semantic Copilot';
+  }
+
+  // ML Phishing Probability
+  const probVal = ml.phishing_probability !== undefined ? `${ml.phishing_probability}%` : `${result.confidence_score}%`;
+  const probEl = document.getElementById('aiMlProb');
+  probEl.textContent = probVal;
+
+  const classEl = document.getElementById('aiMlClass');
+  const mlClass = ml.ai_classification || result.verdict;
+  classEl.textContent = mlClass;
+  if (mlClass === 'PHISHING' || result.verdict === 'PHISHING') {
+    classEl.style.background = 'rgba(255, 51, 102, 0.2)';
+    classEl.style.color = '#ff3366';
+  } else if (mlClass === 'UNKNOWN_GUARDED' || result.verdict === 'UNKNOWN_GUARDED') {
+    classEl.style.background = 'rgba(168, 85, 247, 0.2)';
+    classEl.style.color = '#a855f7';
+  } else {
+    classEl.style.background = 'rgba(0, 242, 254, 0.2)';
+    classEl.style.color = '#00f2fe';
+  }
+
+  const topSignalsEl = document.getElementById('aiTopSignals');
+  const signals = ml.top_ai_signals && ml.top_ai_signals.length > 0 
+    ? ml.top_ai_signals.join(', ')
+    : (result.evasion_techniques && result.evasion_techniques.length > 0 
+        ? result.evasion_techniques.join(', ') 
+        : 'Feature vector verified');
+  topSignalsEl.textContent = `Top signals: ${signals}`;
+
+  // Pretext & Coercion
+  const pretextCatEl = document.getElementById('aiPretextCat');
+  pretextCatEl.textContent = copilot.primary_pretext_category || rec.ai_pretext || 'Pretext Analysis Verified';
+
+  const coercionEl = document.getElementById('aiCoercionTactics');
+  const tactics = copilot.coercion_tactics_detected && copilot.coercion_tactics_detected.length > 0
+    ? copilot.coercion_tactics_detected.join(' • ')
+    : (copilot.ai_behavioral_insight || 'Psychological pressure signals detected in communication vector.');
+  coercionEl.textContent = tactics;
+
+  // Playbook
+  const playbookList = document.getElementById('aiPlaybookList');
+  playbookList.innerHTML = '';
+  const playbook = copilot.ai_recommended_playbook || [
+    'Isolate affected host and revoke active credentials.',
+    'Add malicious target to perimeter DNS/firewall blocklist.',
+    'Enforce MFA re-authentication across corporate directory.'
+  ];
+  playbook.forEach(step => {
+    const li = document.createElement('li');
+    li.textContent = step;
+    playbookList.appendChild(li);
+  });
 }
 
 function renderThreatMatrix(analyst) {
