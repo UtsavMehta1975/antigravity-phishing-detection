@@ -222,6 +222,18 @@ function displayScanResult(result) {
 
   document.getElementById('recipientActionPrompt').textContent = rec.recommended_action;
 
+  // Recipient Malware Alert
+  const malwareAlert = document.getElementById('recipientMalwareAlert');
+  const exactVirusEl = document.getElementById('recipientExactVirus');
+  if (malwareAlert && exactVirusEl) {
+    if (rec.exact_virus_name && rec.exact_virus_name !== 'Clean.NoThreatDetected') {
+      malwareAlert.style.display = 'block';
+      exactVirusEl.textContent = `${rec.exact_virus_name} • [${rec.threat_category || 'Critical Threat'}]`;
+    } else {
+      malwareAlert.style.display = 'none';
+    }
+  }
+
   // Populating Analyst View
   const analyst = result.analyst_view;
   document.getElementById('analystConfidenceVal').textContent = `${result.confidence_score}%`;
@@ -237,6 +249,9 @@ function displayScanResult(result) {
   document.getElementById('nistAccuracy').textContent = JSON.stringify(nist.principle_3_accuracy || {}, null, 2);
   const limits = nist.principle_4_knowledge_limits || [];
   document.getElementById('nistLimits').textContent = limits.join('\n• ');
+
+  // Threat Intel Feeds & Destination Status (VirusTotal Multi-Engine Consensus)
+  renderThreatMatrix(analyst);
 
   // Threat Intel Feeds & Destination Status
   renderThreatMatrix(analyst);
@@ -332,33 +347,64 @@ function renderAiIntelligence(rec, analyst, result) {
 
 function renderThreatMatrix(analyst) {
   const container = document.getElementById('threatFeedGrid');
-  const feeds = analyst.threat_matches || [];
-  const status = analyst.destination_status || 'ACTIVE';
+  const mal = analyst.malware_intel || {};
+  const vt = mal.virustotal_consensus || {
+    engines_flagged: 0,
+    engines_total: 8,
+    detection_ratio: '0/8',
+    engines: {}
+  };
 
-  let html = `
-    <div class="feed-item">
-      <span class="feed-name">Destination Status</span>
-      <span class="feed-status ${status === 'UNKNOWN' ? 'hit' : 'clean'}">${status}</span>
-    </div>
-    <div class="feed-item">
-      <span class="feed-name">OpenPhish Community</span>
-      <span class="feed-status ${feeds.some(f => f.source === 'OpenPhish') ? 'hit' : 'clean'}">
-        ${feeds.some(f => f.source === 'OpenPhish') ? 'PHISH CONFIRMED' : 'CLEAN / CACHED'}
-      </span>
-    </div>
-    <div class="feed-item">
-      <span class="feed-name">URLhaus (abuse.ch)</span>
-      <span class="feed-status ${feeds.some(f => f.source.includes('URLhaus')) ? 'hit' : 'clean'}">
-        ${feeds.some(f => f.source.includes('URLhaus')) ? 'PAYLOAD DROP' : 'CLEAN'}
-      </span>
-    </div>
-    <div class="feed-item">
-      <span class="feed-name">Google Safe Browsing</span>
-      <span class="feed-status ${feeds.some(f => f.source.includes('Safe Browsing')) ? 'hit' : 'clean'}">
-        ${feeds.some(f => f.source.includes('Safe Browsing')) ? 'DECEPTIVE SITE' : 'CLEAN'}
-      </span>
-    </div>
-  `;
+  // Update top banner in consensus card
+  const mitreBadge = document.getElementById('vtMitreBadge');
+  if (mitreBadge) mitreBadge.textContent = `MITRE: ${mal.mitre_attack_id || 'T1566'}`;
+
+  const ratioBadge = document.getElementById('vtRatioBadge');
+  if (ratioBadge) {
+    const isThreat = vt.engines_flagged > 0;
+    ratioBadge.textContent = `${vt.detection_ratio || '0/8'} Vendors Flagged`;
+    ratioBadge.style.background = isThreat ? 'rgba(255, 51, 102, 0.25)' : 'rgba(0, 230, 118, 0.2)';
+    ratioBadge.style.color = isThreat ? '#ff3366' : '#00e676';
+    ratioBadge.style.borderColor = isThreat ? 'rgba(255, 51, 102, 0.5)' : 'rgba(0, 230, 118, 0.4)';
+  }
+
+  const famName = document.getElementById('vtThreatFamilyName');
+  if (famName) {
+    famName.textContent = mal.exact_virus_name || 'Clean.NoThreatDetected';
+    famName.style.color = mal.is_virus_detected ? '#ff3366' : '#00f2fe';
+  }
+
+  const catName = document.getElementById('vtThreatCategory');
+  if (catName) catName.textContent = mal.threat_category || 'Benign';
+
+  // Render 8 Enterprise Engines
+  let html = '';
+  const engines = vt.engines || {};
+  for (const [engineName, info] of Object.entries(engines)) {
+    const isHit = info.verdict === 'MALICIOUS';
+    const isSusp = info.verdict === 'SUSPICIOUS';
+    const statusClass = isHit ? 'hit' : (isSusp ? 'caution' : 'clean');
+    const borderColor = isHit ? '#ff3366' : (isSusp ? '#ffb300' : '#00f2fe');
+    html += `
+      <div class="feed-item" style="border-left: 3px solid ${borderColor};">
+        <span class="feed-name">${engineName}</span>
+        <span class="feed-status ${statusClass}">${info.label}</span>
+      </div>
+    `;
+  }
+
+  // Fallback if engines empty
+  if (!html) {
+    const feeds = analyst.threat_matches || [];
+    const status = analyst.destination_status || 'ACTIVE';
+    html = `
+      <div class="feed-item"><span class="feed-name">Destination Status</span><span class="feed-status ${status === 'UNKNOWN' ? 'hit' : 'clean'}">${status}</span></div>
+      <div class="feed-item"><span class="feed-name">OpenPhish Community</span><span class="feed-status ${feeds.some(f => f.source === 'OpenPhish') ? 'hit' : 'clean'}">${feeds.some(f => f.source === 'OpenPhish') ? 'PHISH CONFIRMED' : 'CLEAN'}</span></div>
+      <div class="feed-item"><span class="feed-name">URLhaus (abuse.ch)</span><span class="feed-status ${feeds.some(f => f.source.includes('URLhaus')) ? 'hit' : 'clean'}">${feeds.some(f => f.source.includes('URLhaus')) ? 'PAYLOAD DROP' : 'CLEAN'}</span></div>
+      <div class="feed-item"><span class="feed-name">Google Safe Browsing</span><span class="feed-status ${feeds.some(f => f.source.includes('Safe Browsing')) ? 'hit' : 'clean'}">${feeds.some(f => f.source.includes('Safe Browsing')) ? 'DECEPTIVE SITE' : 'CLEAN'}</span></div>
+    `;
+  }
+
   container.innerHTML = html;
 }
 

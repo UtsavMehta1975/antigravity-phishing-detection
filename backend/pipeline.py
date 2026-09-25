@@ -22,6 +22,7 @@ from backend.xai_engine import XAIEngine
 from backend.database import save_scan
 from backend.ai_engine.ml_classifier import MLURLClassifier
 from backend.ai_engine.llm_advisor import AISecurityAdvisor
+from backend.threat_intel.malware_signature_engine import MalwareSignatureEngine
 
 class DetectionPipeline:
     def __init__(self):
@@ -184,7 +185,19 @@ class DetectionPipeline:
             evasion_techniques=list(set(evasion_techniques))
         )
 
-        # 9. AI Social Engineering & Pretext Copilot Analysis
+        # 9. Deep Malware Signature & Multi-Engine VirusTotal Attribution
+        target_str = f"{email_data.get('subject', '')} {' '.join(u.get('url', '') for u in url_results)}"
+        malware_intel = MalwareSignatureEngine.scan_for_malware(
+            target_str=target_str,
+            anomalies=all_anomalies,
+            risk_score=total_risk,
+            evasions=list(set(evasion_techniques))
+        )
+        if malware_intel.get("is_virus_detected"):
+            xai_payload["recipient_view"]["exact_virus_name"] = malware_intel.get("exact_virus_name")
+            xai_payload["recipient_view"]["threat_category"] = malware_intel.get("threat_category")
+
+        # 10. AI Social Engineering & Pretext Copilot Analysis
         ai_copilot = self.ai_advisor.analyze_social_engineering(
             text=f"{email_data.get('subject', '')} {email_data.get('body_plain', '')}",
             indicators=[a.get("category", "") for a in all_anomalies]
@@ -209,6 +222,7 @@ class DetectionPipeline:
             "quishing": quishing_results,
             "urls": url_results,
             "ai_copilot": ai_copilot,
+            "malware_intel": malware_intel,
             "hardware_accel": {"m4_cores": RECOMMENDED_WORKERS, "device": TORCH_DEVICE},
             **xai_payload["analyst_view"]
         }
@@ -285,6 +299,14 @@ class DetectionPipeline:
 
         evasions = [intel.get("evasion_technique")] if intel.get("evasion_technique") else []
 
+        # Malware Signature & VirusTotal Multi-Engine Attribution
+        malware_intel = MalwareSignatureEngine.scan_for_malware(
+            target_str=raw_url,
+            anomalies=url_feat.get("anomalies", []),
+            risk_score=url_feat["risk_score"],
+            evasions=evasions
+        )
+
         xai_payload = XAIEngine.generate_explanation(
             scan_type="URL",
             total_risk_score=url_feat["risk_score"],
@@ -295,6 +317,9 @@ class DetectionPipeline:
         )
         xai_payload["recipient_view"]["ai_pretext"] = ai_copilot.get("primary_pretext_category")
         xai_payload["recipient_view"]["ai_manipulation_score"] = ai_copilot.get("manipulation_score")
+        if malware_intel.get("is_virus_detected"):
+            xai_payload["recipient_view"]["exact_virus_name"] = malware_intel.get("exact_virus_name")
+            xai_payload["recipient_view"]["threat_category"] = malware_intel.get("threat_category")
 
         analyst_data = {
             "url_features": url_feat,
@@ -302,6 +327,7 @@ class DetectionPipeline:
             "rdap": intel.get("rdap", {}),
             "ml_prediction": ml_prediction,
             "ai_copilot": ai_copilot,
+            "malware_intel": malware_intel,
             "hardware_accel": {"m4_cores": RECOMMENDED_WORKERS, "device": TORCH_DEVICE},
             **xai_payload["analyst_view"]
         }
@@ -366,6 +392,17 @@ class DetectionPipeline:
             evasion_techniques=evasions
         )
 
+        # Malware Signature & VirusTotal Multi-Engine Attribution
+        malware_intel = MalwareSignatureEngine.scan_for_malware(
+            target_str=filename,
+            anomalies=clean_att.get("anomalies", []),
+            risk_score=clean_att.get("risk_score", 0.0),
+            evasions=evasions
+        )
+        if malware_intel.get("is_virus_detected"):
+            xai_payload["recipient_view"]["exact_virus_name"] = malware_intel.get("exact_virus_name")
+            xai_payload["recipient_view"]["threat_category"] = malware_intel.get("threat_category")
+
         # AI Social Engineering & Pretext Copilot Analysis
         ai_copilot = self.ai_advisor.analyze_social_engineering(
             text=f"{filename} {' '.join(str(v) for v in clean_att.values() if isinstance(v, str))}",
@@ -378,6 +415,7 @@ class DetectionPipeline:
             "attachment_features": clean_att,
             "quishing_findings": quishing_res,
             "ai_copilot": ai_copilot,
+            "malware_intel": malware_intel,
             **xai_payload["analyst_view"]
         }
 
