@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initDropzones();
   initActionButtons();
   initSampleChips();
+  initDocsModal();
+  initAiCopilotChat();
   loadAuditHistory();
 });
 
@@ -464,4 +466,142 @@ function showLoading(msg) {
 
 function hideLoading() {
   document.getElementById('scanLoadingIndicator').style.display = 'none';
+}
+
+// 10. In-App Documentation Modal & Tabs Controller
+function initDocsModal() {
+  const docsModal = document.getElementById('docsModal');
+  const viewDocsBtn = document.getElementById('viewDocsBtn');
+  const docsCloseBtn = document.getElementById('docsCloseBtn');
+
+  if (viewDocsBtn) {
+    viewDocsBtn.addEventListener('click', () => {
+      docsModal.classList.add('active');
+    });
+  }
+
+  if (docsCloseBtn) {
+    docsCloseBtn.addEventListener('click', () => {
+      docsModal.classList.remove('active');
+    });
+  }
+
+  // Close on backdrop click
+  if (docsModal) {
+    docsModal.addEventListener('click', (e) => {
+      if (e.target === docsModal) {
+        docsModal.classList.remove('active');
+      }
+    });
+
+    // Close on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && docsModal.classList.contains('active')) {
+        docsModal.classList.remove('active');
+      }
+    });
+
+    // Sub-tab switching inside Docs
+    const tabBtns = docsModal.querySelectorAll('.docs-tab-btn');
+    const panes = docsModal.querySelectorAll('.docs-pane');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.dataset.pane;
+        tabBtns.forEach(b => b.classList.remove('active'));
+        panes.forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        const target = document.getElementById(targetId);
+        if (target) target.classList.add('active');
+      });
+    });
+
+    // Accordions inside Docs
+    const accordions = docsModal.querySelectorAll('.doc-accordion');
+    accordions.forEach(acc => {
+      const header = acc.querySelector('.doc-acc-header');
+      if (header) {
+        header.addEventListener('click', () => {
+          acc.classList.toggle('open');
+        });
+      }
+    });
+  }
+}
+
+// 11. Interactive AI Threat Copilot Chat Controller
+function initAiCopilotChat() {
+  const chatForm = document.getElementById('aiChatForm');
+  const chatInput = document.getElementById('aiChatInput');
+  const chatBox = document.getElementById('aiChatConversation');
+  const promptChips = document.querySelectorAll('.ai-chip-btn');
+
+  // Quick preset chips
+  promptChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const q = chip.dataset.q;
+      if (q) {
+        chatInput.value = q;
+        submitAiQuestion(q);
+      }
+    });
+  });
+
+  // Chat submit form
+  if (chatForm) {
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const q = chatInput.value.trim();
+      if (!q) return;
+      submitAiQuestion(q);
+    });
+  }
+
+  async function submitAiQuestion(question) {
+    appendChatMessage('user', question, '👤 Analyst Query:');
+    chatInput.value = '';
+
+    const placeholder = appendChatMessage('bot', 'Analyzing attack provenance and architecture...', '🤖 AntiGravity Copilot:');
+
+    try {
+      const resp = await fetch('/api/ai/copilot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question: question,
+          scan_context: currentScanResult || {}
+        })
+      });
+
+      if (!resp.ok) throw new Error('Copilot query failed');
+      const data = await resp.json();
+
+      placeholder.querySelector('p').textContent = data.answer || 'No analysis available.';
+      const roleSpan = placeholder.querySelector('.ai-msg-role');
+      if (roleSpan) {
+        roleSpan.textContent = `🤖 AntiGravity Copilot (${data.provider || 'AI Engine'}):`;
+      }
+    } catch (err) {
+      placeholder.querySelector('p').textContent = 'Error querying AI Copilot. Local heuristic fallback engine active.';
+    }
+
+    if (chatBox) {
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  }
+
+  function appendChatMessage(type, text, roleLabel) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `ai-msg ${type}`;
+    msgDiv.innerHTML = `
+      <span class="ai-msg-role">${roleLabel}</span>
+      <p>${text}</p>
+    `;
+    if (chatBox) {
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+    return msgDiv;
+  }
 }

@@ -62,6 +62,10 @@ class FeedbackRequest(BaseModel):
     override_verdict: str  # 'BENIGN' or 'PHISHING'
     analyst_notes: str
 
+class AICopilotQueryRequest(BaseModel):
+    question: str
+    scan_context: Optional[Dict[str, Any]] = None
+
 # 1. System Health & Hardware Telemetry
 @app.get("/api/health")
 async def health_check():
@@ -141,6 +145,15 @@ async def submit_feedback(req: FeedbackRequest):
 async def get_overrides(limit: int = 50):
     return list_overrides(limit=limit)
 
-# 7. Serve Frontend Dashboard
+# 7. Interactive AI Threat Copilot Endpoint
+@app.post("/api/ai/copilot")
+async def copilot_query(req: AICopilotQueryRequest):
+    if not req.question or not req.question.strip():
+        raise HTTPException(status_code=400, detail="Question cannot be empty")
+    context = req.scan_context or {}
+    res = pipeline.ai_advisor.answer_threat_query(req.question.strip(), context)
+    return res
+
+# 8. Serve Frontend Dashboard
 if os.path.exists(FRONTEND_DIR):
     app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")

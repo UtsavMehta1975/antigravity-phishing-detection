@@ -775,3 +775,320 @@ main {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ==========================================================================
+   Interactive AI Copilot & In-App Documentation Modal Styles
+   ========================================================================== */
+
+/* Docs Highlight Header Button */
+.docs-highlight-btn {
+  background: linear-gradient(135deg, rgba(0, 242, 254, 0.15) 0%, rgba(121, 40, 202, 0.25) 100%) !important;
+  border-color: rgba(0, 242, 254, 0.4) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  transition: all 0.25s ease;
+}
+
+.docs-highlight-btn:hover {
+  background: linear-gradient(135deg, rgba(0, 242, 254, 0.3) 0%, rgba(121, 40, 202, 0.4) 100%) !important;
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.3) !important;
+  transform: translateY(-1px);
+}
+
+/* Large Docs Modal */
+.docs-modal-box {
+  width: 1080px;
+  max-width: 95vw;
+  height: 88vh;
+  background: #0b0f19;
+  border: 1px solid rgba(0, 242, 254, 0.3);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 0 35px rgba(0, 242, 254, 0.15);
+  overflow: hidden;
+}
+
+.docs-modal-header {
+  padding: 1.25rem 1.75rem;
+  background: rgba(13, 18, 29, 0.8);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.docs-tabs-nav {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: rgba(8, 12, 20, 0.6);
+  border-bottom: 1px solid var(--border-subtle);
+  overflow-x: auto;
+}
+
+.docs-tab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.docs-tab-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.docs-tab-btn.active {
+  color: var(--accent-cyan);
+  background: rgba(0, 242, 254, 0.1);
+  border-color: rgba(0, 242, 254, 0.3);
+}
+
+.docs-content-area {
+  flex: 1;
+  padding: 1.75rem;
+  overflow-y: auto;
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+.docs-pane {
+  display: none;
+}
+
+.docs-pane.active {
+  display: block;
+}
+
+/* Docs Typography & Cards */
+.doc-section-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.doc-section-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.doc-card {
+  background: rgba(18, 24, 38, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.doc-card.highlight {
+  border-left: 4px solid var(--accent-cyan);
+  background: linear-gradient(135deg, rgba(0, 242, 254, 0.05) 0%, rgba(18, 24, 38, 0.8) 100%);
+}
+
+.doc-card.purple-glow {
+  border-left: 4px solid var(--accent-purple);
+  background: linear-gradient(135deg, rgba(121, 40, 202, 0.06) 0%, rgba(18, 24, 38, 0.8) 100%);
+}
+
+.doc-pill {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(0, 242, 254, 0.12);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  font-weight: 600;
+}
+
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.85rem;
+}
+
+.doc-table th {
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--accent-cyan);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.doc-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: top;
+}
+
+.doc-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Accordion */
+.doc-accordion {
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  margin-bottom: 0.85rem;
+  background: rgba(13, 18, 29, 0.5);
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.doc-accordion:hover {
+  border-color: rgba(0, 242, 254, 0.3);
+}
+
+.doc-acc-header {
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+}
+
+.doc-acc-header .acc-icon {
+  font-size: 1.1rem;
+  color: var(--accent-cyan);
+  transition: transform 0.25s ease;
+}
+
+.doc-accordion.open .acc-icon {
+  transform: rotate(180deg);
+}
+
+.doc-acc-body {
+  display: none;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  line-height: 1.6;
+}
+
+.doc-accordion.open .doc-acc-body {
+  display: block;
+}
+
+/* AI Copilot Interactive Chat Console */
+.ai-copilot-card {
+  position: relative;
+}
+
+.ai-prompt-chips {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.85rem;
+}
+
+.ai-chip-btn {
+  background: rgba(121, 40, 202, 0.12);
+  border: 1px solid rgba(121, 40, 202, 0.3);
+  color: #e2d4fd;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ai-chip-btn:hover {
+  background: rgba(121, 40, 202, 0.25);
+  border-color: var(--accent-purple);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.ai-chat-box {
+  background: rgba(5, 8, 14, 0.7);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  max-height: 240px;
+  min-height: 80px;
+  overflow-y: auto;
+  padding: 0.85rem;
+  margin-bottom: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ai-msg {
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.ai-msg.bot {
+  background: rgba(18, 24, 38, 0.8);
+  border: 1px solid rgba(0, 242, 254, 0.2);
+  color: var(--text-main);
+  align-self: flex-start;
+  max-width: 95%;
+}
+
+.ai-msg.user {
+  background: rgba(121, 40, 202, 0.25);
+  border: 1px solid rgba(121, 40, 202, 0.4);
+  color: #fff;
+  align-self: flex-end;
+  max-width: 85%;
+}
+
+.ai-msg-role {
+  display: block;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+  color: var(--accent-cyan);
+}
+
+.ai-msg.user .ai-msg-role {
+  color: #c084fc;
+}
+
+.ai-chat-input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ai-chat-input-row input {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  color: #fff;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+
+.ai-chat-input-row input:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 10px rgba(121, 40, 202, 0.2);
+}
+
