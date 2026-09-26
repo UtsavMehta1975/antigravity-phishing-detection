@@ -10,3 +10,5 @@ detection_platform.db-wal
 detection_platform.db-shm
 .DS_Store
 *.log
+malicious_phish.csv
+archive.zip

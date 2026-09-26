@@ -1,4 +1,4 @@
-# 🏆 AntiGravity Phishing & Threat Provenance Platform (Problem P12)
+# 🏆 ShieldCheck Phishing & Threat Provenance Platform (Problem P12)
 ## The Winning Hackathon Pitch, AI Deep-Dive & Judge Q&A Guide (Basic to Advanced)
 
 > **Quick Summary**: This document gives you everything you need to win the presentation:
@@ -14,7 +14,7 @@
 ### The 30-Second Elevator Pitch (For Quick Conversations)
 > *"Modern cybercriminals no longer send obvious spam with bad spelling. They use **hidden QR codes (Quishing)**, **invisible zero-width letters**, **in-memory file smuggling**, and **fake Cloudflare CAPTCHAs** that fool traditional email filters into thinking they are safe.*
 >
-> *We built **AntiGravity** — the first **Multi-Modal Threat Detection and Provenance Platform**. Instead of giving a mysterious black-box percentage, AntiGravity constructs an **Interactive Directed Evidence Graph** that traces every step of the attack chain: from the email header, through smuggled attachments, decoded QR codes, and redirect hops, to the final credential-harvesting trap.*
+> *We built **ShieldCheck** — the first **Multi-Modal Threat Detection and Provenance Platform**. Instead of giving a mysterious black-box percentage, ShieldCheck constructs an **Interactive Directed Evidence Graph** that traces every step of the attack chain: from the email header, through smuggled attachments, decoded QR codes, and redirect hops, to the final credential-harvesting trap.*
 >
 > *It features a **Dual-Layer Interface**: an intuitive, color-coded safety card for everyday employees, and a deep forensic canvas compliant with **NIST SP 1270 Explainable AI** for security analysts — powered by real-time Machine Learning and an AI Security Copilot."*
 
@@ -32,19 +32,19 @@
 > 4. **CAPTCHA Evasion Walls**: Putting their attack behind Cloudflare Turnstile so security crawlers get blocked and falsely report the site as 'Clean'.*
 >
 > **[Slide 2 / Our Solution]**
-> *To solve this, we created **AntiGravity Phishing Detection & Threat Provenance Platform** (Problem P12).*
+> *To solve this, we created **ShieldCheck Phishing Detection & Threat Provenance Platform** (Problem P12).*
 >
-> *AntiGravity does three revolutionary things:
+> *ShieldCheck does three revolutionary things:
 > - **First, Multi-Modal Forensics**: We strip Unicode tag characters, transliterate homoglyphs, decode QR codes with Computer Vision, and inspect SVG/HTML payloads for in-memory JavaScript blob creation.*
-> - **Second, The 'UNKNOWN_GUARDED' State**: When a link hides behind a CAPTCHA or Cloudflare wall, legacy tools say 'Safe'. AntiGravity flags it as `UNKNOWN_GUARDED` — treating verification evasion as a high-risk defensive anomaly.*
+> - **Second, The 'UNKNOWN_GUARDED' State**: When a link hides behind a CAPTCHA or Cloudflare wall, legacy tools say 'Safe'. ShieldCheck flags it as `UNKNOWN_GUARDED` — treating verification evasion as a high-risk defensive anomaly.*
 > - **Third, Explainable AI & Evidence Graph**: We don't just give a score. We build a visual **Directed Evidence Graph** that maps the full attack provenance chain from email to landing page, backed by **Scikit-Learn Machine Learning** and an **AI Social Engineering Copilot** that explains the psychological coercion tactics used.*
 >
 > **[Slide 3 / Live Impact]**
-> *In our batch benchmark testing of 32 live real-world malicious links, AntiGravity achieved a **100% detection rate** (32/32 flagged) in under 1 second per scan.*
+> *In our batch benchmark testing of 32 live real-world malicious links, ShieldCheck achieved a **100% detection rate** (32/32 flagged) in under 1 second per scan.*
 >
 > *We bridge the gap between people and security teams with our **Dual-Layer UI**: a crystal-clear 5-second decision card for everyday employees, and a deep NIST-compliant investigation canvas for SOC analysts.*
 >
-> *AntiGravity turns ordinary users into a human firewall and gives defenders immediate visibility. Thank you."*
+> *ShieldCheck turns ordinary users into a human firewall and gives defenders immediate visibility. Thank you."*
 
 ---
 
@@ -61,9 +61,9 @@ However, modern cyberattackers have evolved:
 
 ---
 
-### How AntiGravity is Fundamentally Different (Comparison Matrix)
+### How ShieldCheck is Fundamentally Different (Comparison Matrix)
 
-| Feature / Capability | Legacy Tools (Gmail, VirusTotal, SpamAssassin) | AntiGravity Platform (Our Innovation) |
+| Feature / Capability | Legacy Tools (Gmail, VirusTotal, SpamAssassin) | ShieldCheck Platform (Our Innovation) |
 | :--- | :--- | :--- |
 | **Verification / CAPTCHA Walls** | **False Negative**: Marks site as "Clean" or "Safe" because the crawler couldn't bypass the CAPTCHA. | **Novel `UNKNOWN_GUARDED` State**: Correctly recognizes that an unverified verification wall hiding a link is inherently suspicious. |
 | **Provenance Tracking** | **Isolated Point Detection**: Evaluates URL or attachment in total isolation. | **Directed Evidence Graph (`networkx`)**: Traces relationship provenance: `Email -> Attachment -> QR -> Redirects -> Landing -> Action`. |
@@ -85,7 +85,7 @@ We have built a **Tri-Pillar AI Architecture**:
 
 ```
                        ┌──────────────────────────────────────────────┐
-                       │        ANTIGRAVITY AI ARCHITECTURE           │
+                       │        ShieldCheck AI ARCHITECTURE           │
                        └──────────────────────┬───────────────────────┘
                                               │
          ┌────────────────────────────────────┼────────────────────────────────────┐
@@ -137,7 +137,7 @@ We have built a **Tri-Pillar AI Architecture**:
 
 #### Pillar D: NIST SP 1270 Explainable AI (XAI) Engine (`backend/xai_engine.py`)
 - Standard AI says: *"Score: 92% Phishing"*. The user doesn't know why.
-- AntiGravity is compliant with the **National Institute of Standards and Technology (NIST)** 4 Principles of Explainable AI:
+- ShieldCheck is compliant with the **National Institute of Standards and Technology (NIST)** 4 Principles of Explainable AI:
   1. *Explanation*: Clear plain-text breakdown of why the decision was made.
   2. *Meaningfulness*: Understandable to both a non-technical receptionist and a senior engineer.
   3. *Accuracy*: Transparent statistical metrics, evaluated features, and critical risk paths.
@@ -152,7 +152,7 @@ If judges ask: *"Where do you take this AI next?"*, here is our structured roadm
 1. **Fine-Tuned Domain Transformers (RoBERTa / DeBERTa)**:
    - Train a custom transformer model on corporate communication datasets to detect nuanced tone shifts, subtle executive impersonation (CEO fraud / BEC), and semantic pretext shifts that keyword filters miss.
 2. **Graph Neural Networks (GNN) on the Evidence Graph**:
-   - Because AntiGravity already creates a `networkx` Evidence Graph, we can run Graph Convolutional Networks (GCN) to predict how threats propagate across multiple users in an enterprise network.
+   - Because ShieldCheck already creates a `networkx` Evidence Graph, we can run Graph Convolutional Networks (GCN) to predict how threats propagate across multiple users in an enterprise network.
 3. **Computer Vision Siamese Neural Networks for Brand Visual Cloning**:
    - When a landing page is resolved, a headless browser takes a screenshot. A Siamese CNN or Vision Transformer (ViT) compares the visual favicon and login form against legitimate brand assets (like Microsoft or Google) to catch pixel-perfect visual clones.
 4. **Vector Embeddings & Clustering for Zero-Day Campaigns**:
@@ -164,14 +164,14 @@ If judges ask: *"Where do you take this AI next?"*, here is our structured roadm
 
 ### Level 1: Basic / Non-Technical Questions (For Business & General Judges)
 
-#### Q1: "Isn't Gmail / Outlook already doing spam and phishing filtering? Why do we need AntiGravity?"
+#### Q1: "Isn't Gmail / Outlook already doing spam and phishing filtering? Why do we need ShieldCheck?"
 > **Answer**: 
 > *"Gmail and Outlook are great at filtering known spam, but they have major blind spots against **modern advanced evasion techniques**.
 >
 > For example:
 > 1. If an attacker puts a malicious link inside an image as a QR code (Quishing), traditional filters read only the email text and let it through.
 > 2. If the attacker hides the link behind a Cloudflare CAPTCHA verification wall, Gmail's automated crawler hits the wall, cannot solve the CAPTCHA, and gives up — often marking the link as clean or unflagged.
-> 3. Legacy tools are 'black boxes' — they either silently delete an email (leaving employees confused when a real email is lost) or show a scary red screen without explanation. AntiGravity solves this with multi-modal detection, provenance tracking, and an explainable dual-layer interface."*
+> 3. Legacy tools are 'black boxes' — they either silently delete an email (leaving employees confused when a real email is lost) or show a scary red screen without explanation. ShieldCheck solves this with multi-modal detection, provenance tracking, and an explainable dual-layer interface."*
 
 #### Q2: "What is Quishing, and why is it such a big deal right now?"
 > **Answer**: 
@@ -197,7 +197,7 @@ If judges ask: *"Where do you take this AI next?"*, here is our structured roadm
 > 1. They assume it's harmless and say 'Safe' (creating a catastrophic **False Negative**).
 > 2. Or they blindly block it and call it malware (creating a **False Positive**).
 >
-> AntiGravity introduces the formal **`UNKNOWN_GUARDED`** state. We tell the user: *'We cannot verify this destination because it is intentionally cloaked behind a verification wall.'* We assign it a guarded caution score (65/100) and explicitly alert the analyst that an evasion wall is in place, complying with NIST SP 1270 Knowledge Limits."*
+> ShieldCheck introduces the formal **`UNKNOWN_GUARDED`** state. We tell the user: *'We cannot verify this destination because it is intentionally cloaked behind a verification wall.'* We assign it a guarded caution score (65/100) and explicitly alert the analyst that an evasion wall is in place, complying with NIST SP 1270 Knowledge Limits."*
 
 #### Q5: "How does your normalization engine defeat Unicode homoglyphs and invisible characters?"
 > **Answer**: 
@@ -212,7 +212,7 @@ If judges ask: *"Where do you take this AI next?"*, here is our structured roadm
 > **Answer**: 
 > *"Traditional antivirus waits for a file to download to the hard drive, then scans it. But **HTML/SVG smuggling never touches the disk** — it uses browser JavaScript to reconstruct an executable file entirely inside the browser's RAM memory and triggers an automatic download.
 >
-> AntiGravity uses **static structural AST and regex parsing** (`backend/parsers/attachment_analyzer.py`). We inspect the SVG or HTML attachment for the exact JavaScript API primitives used in smuggling:
+> ShieldCheck uses **static structural AST and regex parsing** (`backend/parsers/attachment_analyzer.py`). We inspect the SVG or HTML attachment for the exact JavaScript API primitives used in smuggling:
 > - `Blob()` construction with dangerous MIME types (`application/octet-stream`, `application/x-msdownload`).
 > - `URL.createObjectURL()` calls.
 > - Base64 unpacking routines (`atob`).
@@ -245,14 +245,14 @@ If judges ask: *"Where do you take this AI next?"*, here is our structured roadm
 > **Answer**: 
 > *"Safety is built into our core network layer (`destination_resolver.py`). 
 > 
-> When AntiGravity analyzes a URL:
+> When ShieldCheck analyzes a URL:
 > 1. **Dangerous Extension Bypass**: Any URL ending in `.exe`, `.ps1`, `.bat`, `.scr`, `.msi`, etc., has outbound HTTP fetching immediately halted. The engine analyzes the lexical and threat intelligence features of the URL without ever downloading the binary executable payload to the host.
 > 2. **Sandboxed Redirect Inspection**: HTTP HEAD requests and redirect resolution use strict timeout limits, disabled script execution, and safety sandboxes.
 > 3. This allowed us to safely test all 32 real-world malicious links from `sampledetectionlinks.md` on our local machine and achieve 100% detection with zero risk of malware infection."*
 
 #### Q10: "How do you handle a brand-new zero-day attack where the domain is only 2 hours old and is NOT on any blacklist?"
 > **Answer**: 
-> *"That is the exact superpower of our platform. Blacklists only catch attacks that happened yesterday. AntiGravity catches zero-days using **multi-layered behavioral and structural signals**:
+> *"That is the exact superpower of our platform. Blacklists only catch attacks that happened yesterday. ShieldCheck catches zero-days using **multi-layered behavioral and structural signals**:
 > 1. **RDAP Domain Age**: We query ICANN registration data. A domain registered less than 14 days ago receives an automatic anomaly penalty.
 > 2. **Shannon Entropy**: Attackers generating random domains (DGA - Domain Generation Algorithms) trigger high entropy scores.
 > 3. **Brand Typosquatting / Levenshtein Distance**: We detect when a new domain contains brand keywords (e.g. `microsoft-security-auth`) but does not belong to Microsoft's official autonomous system.
@@ -266,7 +266,7 @@ If judges ask: *"Where do you take this AI next?"*, here is our structured roadm
 When showing the project live on your screen at `http://localhost:1511`:
 
 1. **Step 1: Open the Dashboard**
-   - *"Here is the AntiGravity platform running live. Notice the clean, dark cybersecurity interface."*
+   - *"Here is the ShieldCheck platform running live. Notice the clean, dark cybersecurity interface."*
 2. **Step 2: Click a Quick Sample (e.g. 'Quishing Campaign')**
    - Click the **"Quishing Campaign"** chip.
    - Click **"Analyze Threat"**.
@@ -278,7 +278,7 @@ When showing the project live on your screen at `http://localhost:1511`:
    - *"Now we switch to Layer 2: Analyst View. Notice our interactive Directed Evidence Graph. The glowing red line is the Critical Risk Path. We can drag nodes, inspect MIME headers, view Shannon entropy, and see the Scikit-Learn Random Forest prediction alongside the NIST Explainable AI breakdown."*
 5. **Step 5: Show the Evasion Wall Handling**
    - Click the **"Cloudflare Guarded"** sample chip and click **"Analyze Threat"**.
-   - *"Look at this verdict: `UNKNOWN_GUARDED`. Where legacy tools fail, AntiGravity recognizes that a verification wall was used to blind scanners, protecting the user from a hidden zero-day trap."*
+   - *"Look at this verdict: `UNKNOWN_GUARDED`. Where legacy tools fail, ShieldCheck recognizes that a verification wall was used to blind scanners, protecting the user from a hidden zero-day trap."*
 
 ---
 

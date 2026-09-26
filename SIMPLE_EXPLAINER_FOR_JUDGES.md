@@ -1,11 +1,11 @@
-# 🕵️ AntiGravity: Explained So a 12-Year-Old Can Understand
+# 🕵️ ShieldCheck: Explained So a 12-Year-Old Can Understand
 ### The 3 Big Questions: **WHAT**, **WHY**, and **HOW** (The Underlying Logic)
 
 ---
 
 ## 🎤 The 30-Second Elevator Pitch (Read This Aloud to Judges!)
 
-> *"We built **AntiGravity**—a smart cyber detective that catches modern hacker emails and fake links that fool traditional antivirus.* 
+> *"We built **ShieldCheck**—a smart cyber detective that catches modern hacker emails and fake links that fool traditional antivirus.* 
 > 
 > *Traditional tools only check if a link is on an old 'bad list'. But today, hackers hide viruses inside picture files, sneak fake links into QR codes, and use Russian lookalike letters. 
 > 
@@ -43,13 +43,13 @@ Because **old antivirus software is stuck in the past**, while hackers have comp
 
 ### 4. The "10-Minute Website" Problem
 - **The Problem:** Traditional antivirus uses a "blocklist" of known bad websites. But hackers create a new website, steal 100 passwords in 20 minutes, and throw it away. Old tools don't have it on their list yet.
-- **Why we built it:** AntiGravity doesn't just check a list; it investigates the **behavior, grammar, code, and hidden plumbing** of the link in real time.
+- **Why we built it:** ShieldCheck doesn't just check a list; it investigates the **behavior, grammar, code, and hidden plumbing** of the link in real time.
 
 ---
 
 ## 🧠 Question 3: HOW Did We Make It? (The Step-by-Step Logic)
 
-Here is the exact step-by-step recipe of what happens inside AntiGravity's brain the millisecond an email or URL is entered:
+Here is the exact step-by-step recipe of what happens inside ShieldCheck's brain the millisecond an email or URL is entered:
 
 ```
 [ Incoming Email or Link ]
@@ -82,32 +82,32 @@ Here is the exact step-by-step recipe of what happens inside AntiGravity's brain
 
 #### 🔹 Step 1: The Disguise Peeler (Normalization)
 - **The Logic:** Hackers put invisible spaces (zero-width spaces) between letters or use foreign lookalike letters so security filters can't read words like `p-a-s-s-w-o-r-d`.
-- **What AntiGravity Does:** It scrubs the text, removes all invisible characters, translates Russian/Greek lookalikes into plain English, and unmasks the true words.
+- **What ShieldCheck Does:** It scrubs the text, removes all invisible characters, translates Russian/Greek lookalikes into plain English, and unmasks the true words.
 
 #### 🔹 Step 2: The X-Ray Machine (Attachment Smuggler Detection)
-- **The Logic:** When someone sends an `.svg` or `.html` file, AntiGravity reads the file's raw blueprint.
-- **What AntiGravity Does:** It looks for suspicious coding instructions like `new Blob()`, `URL.createObjectURL()`, or programmatic `.click()`. If it sees code trying to secretly assemble a downloadable file in memory, it sounds the alarm!
+- **The Logic:** When someone sends an `.svg` or `.html` file, ShieldCheck reads the file's raw blueprint.
+- **What ShieldCheck Does:** It looks for suspicious coding instructions like `new Blob()`, `URL.createObjectURL()`, or programmatic `.click()`. If it sees code trying to secretly assemble a downloadable file in memory, it sounds the alarm!
 
 #### 🔹 Step 3: The Robot Eyes (Computer Vision Quishing Decoder)
-- **The Logic:** If an email contains a picture or a PDF with an image, AntiGravity uses computer vision (OpenCV).
-- **What AntiGravity Does:** It converts the image to high contrast black-and-white, finds the QR code pattern, decodes the secret web address hidden inside, and passes that link to the next step.
+- **The Logic:** If an email contains a picture or a PDF with an image, ShieldCheck uses computer vision (OpenCV).
+- **What ShieldCheck Does:** It converts the image to high contrast black-and-white, finds the QR code pattern, decodes the secret web address hidden inside, and passes that link to the next step.
 
 #### 🔹 Step 4: The Lie Detector (Mismatches & Spoofing)
 - **The Logic:** In phishing emails, blue clickable text often says `https://login.microsoft.com`, but the actual hidden link behind it points to `http://hacker-login-box.top`.
-- **What AntiGravity Does:** It compares what the human sees vs where the link actually takes them. If they don't match, it flags a massive critical penalty score.
+- **What ShieldCheck Does:** It compares what the human sees vs where the link actually takes them. If they don't match, it flags a massive critical penalty score.
 
 #### 🔹 Step 5: The Math Scorer (Shannon Entropy & Lure Keywords)
 - **The Logic:** Humans make websites with normal words like `google.com`. Hackers use random robots to generate gibberish names like `x9q8w2z7k1v4m0p.xyz` or lure phrases like `software-update.exe`.
-- **What AntiGravity Does:** It calculates **Shannon Entropy** (a mathematical score of how chaotic or random the letters are). High randomness = likely a hacker computer program. It also checks for direct dangerous file downloads like `.exe` or `.ps1`.
+- **What ShieldCheck Does:** It calculates **Shannon Entropy** (a mathematical score of how chaotic or random the letters are). High randomness = likely a hacker computer program. It also checks for direct dangerous file downloads like `.exe` or `.ps1`.
 
 #### 🔹 Step 6: The Crime Map (Directed Evidence Graph)
-- **The Logic:** Instead of just outputting a single number, AntiGravity connects all clues using a network graph:
+- **The Logic:** Instead of just outputting a single number, ShieldCheck connects all clues using a network graph:
   $$\text{Email Sender} \longrightarrow \text{Suspicious Image} \longrightarrow \text{Decoded Link} \longrightarrow \text{Redirect Hops} \longrightarrow \text{Fake Login Page}$$
-- **What AntiGravity Does:** It finds the **Critical Risk Path** (the most dangerous route through the clues) and lights it up in glowing red on an interactive canvas.
+- **What ShieldCheck Does:** It finds the **Critical Risk Path** (the most dangerous route through the clues) and lights it up in glowing red on an interactive canvas.
 
 #### 🔹 Step 7: The Honest Verdict (Explainable AI)
 - **The Logic:** If a hacker puts a Cloudflare or CAPTCHA screen in front of their site, older tools say *"We couldn't see any virus, so it's safe!"*
-- **What AntiGravity Does:** It is honest. It outputs **UNKNOWN / GUARDED**, warning the user: *"We cannot verify this site because it is hiding behind a verification wall."* It writes a clear paragraph explaining **WHY** it made its decision following official NIST Explainable AI standards.
+- **What ShieldCheck Does:** It is honest. It outputs **UNKNOWN / GUARDED**, warning the user: *"We cannot verify this site because it is hiding behind a verification wall."* It writes a clear paragraph explaining **WHY** it made its decision following official NIST Explainable AI standards.
 
 ---
 

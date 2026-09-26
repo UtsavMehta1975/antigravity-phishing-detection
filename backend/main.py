@@ -50,7 +50,7 @@ log = get_logger(__name__)
 # Application
 # ---------------------------------------------------------------------------
 app = FastAPI(
-    title="AntiGravity Phishing Detection Engine",
+    title="ShieldCheck Phishing Detection Engine",
     description=(
         "Multi-layer phishing email & URL detection platform with explainable AI, "
         "malware signature attribution, VirusTotal-grade multi-vendor consensus, "

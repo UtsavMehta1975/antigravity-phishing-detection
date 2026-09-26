@@ -1,4 +1,4 @@
-# 🛡️ AntiGravity: Phishing & Malicious URL Provenance Engine
+# 🛡️ ShieldCheck: Phishing & Malicious URL Provenance Engine
 ### Project Summary & Pitch Guide for Judges (Non-Technical & Executive Overview)
 
 ---
@@ -17,11 +17,11 @@ Traditional antivirus checks static "blocklists." **If an attacker created a new
 
 ---
 
-## 🚀 2. What AntiGravity Does (In Simple Words)
+## 🚀 2. What ShieldCheck Does (In Simple Words)
 
-Think of **AntiGravity** as a **Digital Forensic Detective**. 
+Think of **ShieldCheck** as a **Digital Forensic Detective**. 
 
-Instead of just checking if a link is on a "known bad list", AntiGravity conducts a complete multi-step investigation:
+Instead of just checking if a link is on a "known bad list", ShieldCheck conducts a complete multi-step investigation:
 - It opens the digital envelope.
 - It scans images for hidden QR codes using computer vision.
 - It unpacks attachments to see if hidden download triggers are lurking inside.
@@ -34,7 +34,7 @@ Instead of just checking if a link is on a "known bad list", AntiGravity conduct
 
 ### 🦸 1. The X-Ray Scanner (Neutralizing File Smuggling)
 - **The Trick:** Attackers send what looks like an invoice image. When opened, hidden code silently pieces together a virus in the background.
-- **Our Defense:** AntiGravity inspects the raw code of SVG and HTML attachments. It instantly spots and neutralizes automated download triggers and hidden file assembly routines before they ever touch the computer.
+- **Our Defense:** ShieldCheck inspects the raw code of SVG and HTML attachments. It instantly spots and neutralizes automated download triggers and hidden file assembly routines before they ever touch the computer.
 
 ### 🦸 2. The QR Code Hunter ("Quishing" Defense)
 - **The Trick:** Attackers email a document saying: *"Scan this QR code with your phone to verify your payroll."*
@@ -52,13 +52,13 @@ Instead of just checking if a link is on a "known bad list", AntiGravity conduct
 
 ### 🦸 5. Honest AI: Handling the "Unknown" State
 - **The Trick:** Attackers put a "Verify you are human" CAPTCHA screen on their phishing website to stop security scanners from seeing the fake login form.
-- **Our Defense:** Many older security tools mistakenly say: *"We didn't see any virus, so this website must be safe!"* AntiGravity is smarter: it detects the evasion wall, explicitly flags the destination as **UNKNOWN / GUARDED**, and warns the user never to enter details.
+- **Our Defense:** Many older security tools mistakenly say: *"We didn't see any virus, so this website must be safe!"* ShieldCheck is smarter: it detects the evasion wall, explicitly flags the destination as **UNKNOWN / GUARDED**, and warns the user never to enter details.
 
 ---
 
 ## 👥 4. The Dual-Layer Interface: Built for Two Audiences
 
-Security tools usually fail because they are either **too complicated for regular staff** or **too basic for IT professionals**. AntiGravity solves this with a **Dual-Layer Interface**:
+Security tools usually fail because they are either **too complicated for regular staff** or **too basic for IT professionals**. ShieldCheck solves this with a **Dual-Layer Interface**:
 
 ### 1️⃣ For Everyday Employees: The "Recipient View"
 - **No confusing technical jargon.**
@@ -105,4 +105,4 @@ We tested the platform against **32 diverse, live malicious links** including ba
 
 Phishing remains the **#1 cause of corporate data breaches worldwide**. Attackers have weaponized modern tricks like image smuggling and QR codes because legacy software can't see them.
 
-**AntiGravity brings security back into the light** by combining computer vision, deep feature extraction, and explainable evidence maps into a platform that protects everyday employees while giving security teams the deep forensics they need.
+**ShieldCheck brings security back into the light** by combining computer vision, deep feature extraction, and explainable evidence maps into a platform that protects everyday employees while giving security teams the deep forensics they need.

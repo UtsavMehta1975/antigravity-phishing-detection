@@ -1,853 +1,1168 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShieldCheck — Is This Safe? Phishing & Malware Detector</title>
-  <meta name="description" content="Check if an email, link or file is safe. Free, instant, AI-powered phishing and malware detection for everyone — from students to security pros.">
+  <meta name="description"
+    content="Check if an email, link or file is safe. Free, instant, AI-powered phishing and malware detection for everyone — from students to security pros.">
   <meta property="og:title" content="ShieldCheck — Is This Link Safe?">
-  <meta property="og:description" content="Paste a link or upload a file. Get an instant verdict in plain English. No technical knowledge needed.">
+  <meta property="og:description"
+    content="Paste a link or upload a file. Get an instant verdict in plain English. No technical knowledge needed.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
 
-<!-- ============================================================ -->
-<!-- LANDING / HERO PAGE -->
-<!-- ============================================================ -->
-<div id="landingPage" class="landing-page">
+  <!-- ============================================================ -->
+  <!-- LANDING / HERO PAGE -->
+  <!-- ============================================================ -->
+  <div id="landingPage" class="landing-page">
 
-  <!-- Nav -->
-  <nav class="landing-nav">
-    <div class="nav-brand">
-      <div class="nav-logo">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-      </div>
-      <span class="nav-brand-name">ShieldCheck</span>
-      <span class="nav-badge">by AntiGravity</span>
-    </div>
-    <div class="nav-links">
-      <button class="nav-link-btn" id="navOpenApp">Open Scanner</button>
-      <button class="nav-link-btn ghost" id="navDocs">Judge Docs 📖</button>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero-section">
-    <div class="hero-badge">🏆 Web-A-Thon 2.0 · Problem P12 · AI-Powered Security</div>
-    <h1 class="hero-title">
-      Is this link <span class="hero-gradient">safe to click?</span>
-    </h1>
-    <p class="hero-subtitle">
-      Paste any suspicious link, email, or file below. Get a plain-English answer in seconds.<br>
-      No account needed. Works for everyone — employees, students, parents, and IT teams.
-    </p>
-
-    <!-- Hero Quick Scanner -->
-    <div class="hero-scanner-box">
-      <div class="hero-scan-tabs">
-        <button class="hero-tab active" data-target="heroUrlInput">🔗 Check a Link</button>
-        <button class="hero-tab" data-target="heroEmailInput">📧 Check an Email</button>
-        <button class="hero-tab" data-target="heroFileInput">📎 Check a File</button>
-      </div>
-
-      <!-- Link Input -->
-      <div id="heroUrlInput" class="hero-input-pane active">
-        <div class="hero-input-row">
-          <input type="text" id="heroUrlField" class="hero-url-input" placeholder="Paste the suspicious link here… e.g. http://login-paypal-verify.top/auth" autocomplete="off">
-          <button id="heroScanBtn" class="hero-scan-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m21 21-4.3-4.3"/><circle cx="11" cy="11" r="8"/></svg>
-            Check Now
-          </button>
+    <!-- Nav -->
+    <nav class="landing-nav">
+      <div class="nav-brand">
+        <div class="nav-logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="m9 12 2 2 4-4" />
+          </svg>
         </div>
+        <span class="nav-brand-name">ShieldCheck</span>
+        <span class="nav-badge">by ShieldCheck</span>
       </div>
+      <div class="nav-links">
+        <button class="nav-link-btn" id="navOpenApp">Open Scanner</button>
+        <button class="nav-link-btn ghost" id="navDocs">Judge Docs 📖</button>
+      </div>
+    </nav>
 
-      <!-- Email Input -->
-      <div id="heroEmailInput" class="hero-input-pane">
-        <div class="hero-dropzone" id="heroEmailDrop">
-          <input type="file" id="heroEmailFile" accept=".eml,.msg,.txt" style="display:none">
-          <div class="hero-drop-icon">📧</div>
-          <div class="hero-drop-text">Drop your email file here, or <span class="hero-drop-link" onclick="document.getElementById('heroEmailFile').click()">click to browse</span></div>
-          <div class="hero-drop-sub">Supports .eml, .msg, .txt — max 10 MB</div>
+    <!-- Hero -->
+    <section class="hero-section">
+      <div class="hero-badge">🏆 Web-A-Thon 2.0 · Problem P12 · AI-Powered Security</div>
+      <h1 class="hero-title">
+        Is this link <span class="hero-gradient">safe to click?</span>
+      </h1>
+      <p class="hero-subtitle">
+        Paste any suspicious link, email, or file below. Get a plain-English answer in seconds.<br>
+        No account needed. Works for everyone — employees, students, parents, and IT teams.
+      </p>
+
+      <!-- Hero Quick Scanner -->
+      <div class="hero-scanner-box">
+        <div class="hero-scan-tabs">
+          <button class="hero-tab active" data-target="heroUrlInput">🔗 Check a Link</button>
+          <button class="hero-tab" data-target="heroEmailInput">📧 Check an Email</button>
+          <button class="hero-tab" data-target="heroFileInput">📎 Check a File</button>
         </div>
-      </div>
 
-      <!-- File Input -->
-      <div id="heroFileInput" class="hero-input-pane">
-        <div class="hero-dropzone" id="heroFileDrop">
-          <input type="file" id="heroFileFileInput" accept=".pdf,.docx,.html,.svg,.zip,.exe,.ps1" style="display:none">
-          <div class="hero-drop-icon">📎</div>
-          <div class="hero-drop-text">Drop a suspicious attachment, or <span class="hero-drop-link" onclick="document.getElementById('heroFileFileInput').click()">click to browse</span></div>
-          <div class="hero-drop-sub">PDF, Word, HTML, SVG, ZIP, EXE — max 5 MB</div>
-        </div>
-      </div>
-
-      <!-- Loading State -->
-      <div id="heroLoadingBar" class="hero-loading" style="display:none">
-        <div class="hero-progress-bar"><div class="hero-progress-fill" id="heroProgressFill"></div></div>
-        <div class="hero-loading-text" id="heroLoadingText">Checking with 8 security engines…</div>
-      </div>
-    </div>
-
-    <!-- Try Examples -->
-    <div class="hero-examples">
-      <span class="hero-examples-label">Try an example:</span>
-      <button class="example-pill danger" data-url="http://login-microsoft-security.top/auth/renew">🔴 Fake Microsoft Login</button>
-      <button class="example-pill danger" data-url="http://trustpass.fun/o/fz204/payload.exe">🔴 Malware Downloader</button>
-      <button class="example-pill danger" data-url="http://secure-appleid-verify.cfd/id/validate">🔴 Apple ID Phishing</button>
-      <button class="example-pill safe" data-url="https://google.com">🟢 Google (Safe)</button>
-      <button class="example-pill safe" data-url="https://github.com">🟢 GitHub (Safe)</button>
-    </div>
-  </section>
-
-  <!-- Who is this for? -->
-  <section class="personas-section">
-    <h2 class="section-title">Built for everyone</h2>
-    <p class="section-subtitle">One tool, four ways to use it</p>
-    <div class="personas-grid">
-      <div class="persona-card" id="personaEmployee">
-        <div class="persona-emoji">👩‍💼</div>
-        <div class="persona-title">Regular Employee</div>
-        <div class="persona-desc">Got a suspicious email? Paste the link and get a simple YES / NO in seconds. No IT knowledge needed.</div>
-        <div class="persona-features">
-          <span>✅ Plain English verdict</span>
-          <span>✅ What to do next</span>
-          <span>✅ One-click report</span>
-        </div>
-        <button class="persona-cta" data-mode="simple">Use Simple Mode →</button>
-      </div>
-
-      <div class="persona-card" id="personaParent">
-        <div class="persona-emoji">👨‍👩‍👧</div>
-        <div class="persona-title">Parent / Student</div>
-        <div class="persona-desc">Not sure if something your child received is safe? Check it here. We explain what's wrong in everyday words.</div>
-        <div class="persona-features">
-          <span>✅ No jargon</span>
-          <span>✅ Emoji-guided verdict</span>
-          <span>✅ Share result link</span>
-        </div>
-        <button class="persona-cta" data-mode="simple">Use Simple Mode →</button>
-      </div>
-
-      <div class="persona-card" id="personaIT">
-        <div class="persona-emoji">🔐</div>
-        <div class="persona-title">IT / Security Team</div>
-        <div class="persona-desc">Full forensic breakdown: malware family attribution, MITRE ATT&CK mapping, 8-vendor AV consensus, and Evidence Graph.</div>
-        <div class="persona-features">
-          <span>✅ Malware family ID</span>
-          <span>✅ MITRE ATT&CK map</span>
-          <span>✅ Evidence Graph</span>
-        </div>
-        <button class="persona-cta analyst" data-mode="analyst">Use Analyst Mode →</button>
-      </div>
-
-      <div class="persona-card" id="personaDev">
-        <div class="persona-emoji">💻</div>
-        <div class="persona-title">Developer / Enterprise</div>
-        <div class="persona-desc">REST API with batch scanning (100 URLs in &lt;3s), rate limiting, Prometheus metrics, and structured JSON logs.</div>
-        <div class="persona-features">
-          <span>✅ REST API</span>
-          <span>✅ Batch scan (100 URLs)</span>
-          <span>✅ Prometheus metrics</span>
-        </div>
-        <button class="persona-cta dev" data-mode="api">View API Docs →</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- How it works -->
-  <section class="how-section">
-    <h2 class="section-title">How it works</h2>
-    <p class="section-subtitle">3 steps. Under 1 second.</p>
-    <div class="how-steps">
-      <div class="how-step">
-        <div class="step-number">1</div>
-        <div class="step-icon">📋</div>
-        <div class="step-title">Paste or Upload</div>
-        <div class="step-desc">Drop in a suspicious link, email file (.eml), or attachment (PDF, Word, ZIP)</div>
-      </div>
-      <div class="how-arrow">→</div>
-      <div class="how-step">
-        <div class="step-number">2</div>
-        <div class="step-icon">🤖</div>
-        <div class="step-title">AI Analyses It</div>
-        <div class="step-desc">8 security engines check it: URL structure, malware databases, phishing feeds, and AI social engineering analysis</div>
-      </div>
-      <div class="how-arrow">→</div>
-      <div class="how-step">
-        <div class="step-number">3</div>
-        <div class="step-icon">✅</div>
-        <div class="step-title">Get Your Answer</div>
-        <div class="step-desc">A clear verdict in plain English with exactly what to do next — whether you're an employee or a security expert</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stats -->
-  <section class="stats-section">
-    <div class="stats-grid">
-      <div class="stat-item">
-        <div class="stat-number">94.1%</div>
-        <div class="stat-label">Detection Precision</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">2,847</div>
-        <div class="stat-label">Tested Phishing Samples</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">&lt; 1s</div>
-        <div class="stat-label">Avg Scan Time</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">9</div>
-        <div class="stat-label">Malware Families Identified</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">100/3s</div>
-        <div class="stat-label">Batch Scan (URLs)</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">0</div>
-        <div class="stat-label">Your Data Stored*</div>
-      </div>
-    </div>
-    
-    <!-- AI Quote Integration -->
-    <div style="margin-top: 3rem; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border-mid); border-radius: var(--radius-lg); padding: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-      <div style="font-size: 0.85rem; font-weight: 700; color: var(--accent-cyan); font-family: var(--font-mono); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">🤖 AI Wisdom of the Moment</div>
-      <div id="aiDailyQuote" style="font-size: 1.1rem; color: #fff; font-style: italic; margin-bottom: 0.5rem;">Loading quote...</div>
-      <div id="aiDailyQuoteAuthor" style="font-size: 0.85rem; color: var(--text-dim); text-align: right;"></div>
-    </div>
-
-    <div class="stats-note" style="margin-top: 2rem;">*Email bodies are hashed, not stored. Scans auto-deleted after 30 days.</div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="landing-footer">
-    <div class="footer-brand">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-      ShieldCheck by AntiGravity — Web-A-Thon 2.0 · Problem P12
-    </div>
-    <div class="footer-links">
-      <a href="/api/docs" target="_blank">API Docs</a>
-      <a href="/api/metrics" target="_blank">Live Metrics</a>
-      <a href="/api/metrics/prometheus" target="_blank">Prometheus</a>
-      <button id="footerJudgeDocs" class="footer-link-btn">Judge Documentation</button>
-    </div>
-  </footer>
-</div>
-
-<!-- ============================================================ -->
-<!-- MAIN APP (hidden until user enters) -->
-<!-- ============================================================ -->
-<div id="appPage" style="display:none;">
-
-  <!-- App Header -->
-  <header class="app-header">
-    <div class="app-header-inner">
-      <button class="back-to-home" id="backToHome">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="m12 5-7 7 7 7"/></svg>
-        Home
-      </button>
-      <div class="brand-wrapper">
-        <div class="brand-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-        </div>
-        <div>
-          <span class="brand-title">ShieldCheck</span>
-          <span class="brand-sub">by AntiGravity</span>
-        </div>
-      </div>
-
-      <!-- Mode Switcher -->
-      <div class="mode-switcher">
-        <button class="mode-btn active" id="modeSimple" title="Simple mode — plain English results">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Simple
-        </button>
-        <button class="mode-btn" id="modeAnalyst" title="Analyst mode — full forensic breakdown">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/></svg>
-          Analyst
-        </button>
-        <button class="mode-btn docs-mode-btn" id="modeDocsBtn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          📖 Docs
-        </button>
-      </div>
-
-      <!-- Live Metrics Pill -->
-      <div class="header-metrics">
-        <span class="metric-pill green" id="systemStatus">● LIVE</span>
-        <span class="metric-pill" id="cacheHitPill" title="Cache hit rate">Cache --</span>
-      </div>
-    </div>
-  </header>
-
-  <main class="app-main">
-
-    <!-- ============================== -->
-    <!-- SCANNER PANEL -->
-    <!-- ============================== -->
-    <section class="scanner-panel glass-panel">
-
-      <!-- Input Mode Tabs -->
-      <div class="scan-nav-tabs">
-        <button class="tab-btn active" data-pane="emlPane">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          Email (.eml)
-        </button>
-        <button class="tab-btn" data-pane="urlPane">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-          URL / Link
-        </button>
-        <button class="tab-btn" data-pane="attPane">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
-          Attachment
-        </button>
-        <button class="tab-btn" data-pane="batchPane">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-          Batch Scan
-        </button>
-      </div>
-
-      <!-- Email Pane -->
-      <div id="emlPane" class="pane active">
-        <div id="emlDropzone" class="dropzone">
-          <input type="file" id="emlFileInput" accept=".eml,.msg,.txt" style="display:none">
-          <div class="dropzone-icon">📧</div>
-          <h3>Drop your email file here</h3>
-          <p class="text-dim">Supports .eml, .msg, .txt — max 10 MB</p>
-          <p class="text-dim" style="font-size:0.78rem; margin-top:0.25rem;">Checks: sender authenticity, hidden links, QR codes, attachment threats</p>
-        </div>
-      </div>
-
-      <!-- URL Pane -->
-      <div id="urlPane" class="pane">
-        <div class="url-input-group">
-          <input type="url" id="urlInput" class="url-input" placeholder="Paste a suspicious URL here… e.g. http://microsoft-login-verify.top/auth">
-          <button id="scanUrlBtn" class="btn-primary">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            Check It
-          </button>
-        </div>
-        <div class="url-quick-chips">
-          <span class="url-chip-label">Try:</span>
-          <button class="url-chip danger" data-url="http://login-microsoft-security.top/auth/renew">Fake Microsoft</button>
-          <button class="url-chip danger" data-url="http://trustpass.fun/o/fz204/payload.exe">Malware Dropper</button>
-          <button class="url-chip danger" data-url="http://secure-appleid-verify.cfd/id">Apple Phish</button>
-          <button class="url-chip safe" data-url="https://google.com">Google ✓</button>
-          <button class="url-chip safe" data-url="https://github.com">GitHub ✓</button>
-        </div>
-      </div>
-
-      <!-- Attachment Pane -->
-      <div id="attPane" class="pane">
-        <div id="attDropzone" class="dropzone">
-          <input type="file" id="attFileInput" accept=".svg,.html,.htm,.pdf,.docx,.docm,.png,.jpg,.exe,.ps1,.zip" style="display:none">
-          <div class="dropzone-icon">📎</div>
-          <h3>Drop a suspicious attachment</h3>
-          <p class="text-dim">PDF, Word, HTML, SVG, ZIP, EXE, PS1 — max 5 MB</p>
-          <p class="text-dim" style="font-size:0.78rem; margin-top:0.25rem;">Detects: HTML smuggling, macros, embedded QR codes, malware signatures</p>
-        </div>
-      </div>
-
-      <!-- Batch Pane -->
-      <div id="batchPane" class="pane">
-        <div class="batch-pane-inner">
-          <div class="batch-header">
-            <span class="batch-title">🚀 Batch URL Scanner</span>
-            <span class="batch-subtitle">Paste up to 100 URLs — one per line. All processed in parallel.</span>
-          </div>
-          <textarea id="batchUrlInput" class="batch-textarea" placeholder="https://example1.com&#10;https://phishing-site.top/login&#10;https://google.com&#10;…one URL per line, max 100"></textarea>
-          <div class="batch-actions">
-            <span class="batch-count" id="batchCount">0 URLs entered</span>
-            <button id="batchScanBtn" class="btn-primary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              Scan All
+        <!-- Link Input -->
+        <div id="heroUrlInput" class="hero-input-pane active">
+          <div class="hero-input-row">
+            <input type="text" id="heroUrlField" class="hero-url-input"
+              placeholder="Paste the suspicious link here… e.g. http://login-paypal-verify.top/auth" autocomplete="off">
+            <button id="heroScanBtn" class="hero-scan-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="m21 21-4.3-4.3" />
+                <circle cx="11" cy="11" r="8" />
+              </svg>
+              Check Now
             </button>
           </div>
         </div>
+
+        <!-- Email Input -->
+        <div id="heroEmailInput" class="hero-input-pane">
+          <div class="hero-dropzone" id="heroEmailDrop">
+            <input type="file" id="heroEmailFile" accept=".eml,.msg,.txt" style="display:none">
+            <div class="hero-drop-icon">📧</div>
+            <div class="hero-drop-text">Drop your email file here, or <span class="hero-drop-link"
+                onclick="document.getElementById('heroEmailFile').click()">click to browse</span></div>
+            <div class="hero-drop-sub">Supports .eml, .msg, .txt — max 10 MB</div>
+          </div>
+        </div>
+
+        <!-- File Input -->
+        <div id="heroFileInput" class="hero-input-pane">
+          <div class="hero-dropzone" id="heroFileDrop">
+            <input type="file" id="heroFileFileInput" accept=".pdf,.docx,.html,.svg,.zip,.exe,.ps1"
+              style="display:none">
+            <div class="hero-drop-icon">📎</div>
+            <div class="hero-drop-text">Drop a suspicious attachment, or <span class="hero-drop-link"
+                onclick="document.getElementById('heroFileFileInput').click()">click to browse</span></div>
+            <div class="hero-drop-sub">PDF, Word, HTML, SVG, ZIP, EXE — max 5 MB</div>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="heroLoadingBar" class="hero-loading" style="display:none">
+          <div class="hero-progress-bar">
+            <div class="hero-progress-fill" id="heroProgressFill"></div>
+          </div>
+          <div class="hero-loading-text" id="heroLoadingText">Checking with 8 security engines…</div>
+        </div>
       </div>
 
-      <!-- 1-Click Samples -->
-      <div class="sample-pills">
-        <span class="sample-label">⚡ 1-Click Attack Demos:</span>
-        <span class="sample-chip" data-sample="svg_smuggling">SVG Smuggling</span>
-        <span class="sample-chip" data-sample="brand_typosquat">MS Typosquat</span>
-        <span class="sample-chip" data-sample="dga_entropy">DGA Domain</span>
-        <span class="sample-chip" data-sample="captcha_wall">CAPTCHA Evasion</span>
-        <span class="sample-chip safe-chip" data-sample="clean_email">✅ Safe Email</span>
-      </div>
-
-      <!-- Loading Indicator -->
-      <div id="scanLoadingIndicator" class="scan-loading" style="display:none">
-        <div class="loading-spinner"></div>
-        <span id="loadingMsg">Analysing with 8 security engines…</span>
+      <!-- Try Examples -->
+      <div class="hero-examples">
+        <span class="hero-examples-label">Try an example:</span>
+        <button class="example-pill danger" data-url="http://login-microsoft-security.top/auth/renew">🔴 Fake Microsoft
+          Login</button>
+        <button class="example-pill danger" data-url="http://trustpass.fun/o/fz204/payload.exe">🔴 Malware
+          Downloader</button>
+        <button class="example-pill danger" data-url="http://secure-appleid-verify.cfd/id/validate">🔴 Apple ID
+          Phishing</button>
+        <button class="example-pill safe" data-url="https://google.com">🟢 Google (Safe)</button>
+        <button class="example-pill safe" data-url="https://github.com">🟢 GitHub (Safe)</button>
       </div>
     </section>
 
-    <!-- ============================== -->
-    <!-- RESULTS AREA -->
-    <!-- ============================== -->
-    <div id="resultsContainer" style="display:none">
-
-      <!-- ========================= -->
-      <!-- SIMPLE MODE RESULTS -->
-      <!-- ========================= -->
-      <section id="simpleModeResults" class="simple-results active">
-
-        <!-- Big Verdict Card -->
-        <div class="verdict-hero-card" id="verdictHeroCard">
-          <div class="verdict-emoji" id="verdictEmoji">🔴</div>
-          <div class="verdict-headline" id="verdictHeadline">Dangerous! Do not click.</div>
-          <div class="verdict-subtext" id="verdictSubtext">This link is trying to steal your password.</div>
-
-          <!-- What exactly was found -->
-          <div class="verdict-threat-tag" id="verdictThreatTag" style="display:none">
-            <span class="threat-tag-icon">☣️</span>
-            <span id="verdictThreatName"></span>
+    <!-- Who is this for? -->
+    <section class="personas-section">
+      <h2 class="section-title">Built for everyone</h2>
+      <p class="section-subtitle">One tool, four ways to use it</p>
+      <div class="personas-grid">
+        <div class="persona-card" id="personaEmployee">
+          <div class="persona-emoji">👩‍💼</div>
+          <div class="persona-title">Regular Employee</div>
+          <div class="persona-desc">Got a suspicious email? Paste the link and get a simple YES / NO in seconds. No IT
+            knowledge needed.</div>
+          <div class="persona-features">
+            <span>✅ Plain English verdict</span>
+            <span>✅ What to do next</span>
+            <span>✅ One-click report</span>
           </div>
+          <button class="persona-cta" data-mode="simple">Use Simple Mode →</button>
+        </div>
 
-          <!-- Risk Meter -->
-          <div class="risk-meter-wrap">
-            <div class="risk-meter-label">
-              <span>Safe</span>
-              <span id="riskMeterScore">--</span>
-              <span>Dangerous</span>
-            </div>
-            <div class="risk-meter-bar">
-              <div class="risk-meter-fill" id="riskMeterFill"></div>
-              <div class="risk-meter-thumb" id="riskMeterThumb"></div>
-            </div>
+        <div class="persona-card" id="personaParent">
+          <div class="persona-emoji">👨‍👩‍👧</div>
+          <div class="persona-title">Parent / Student</div>
+          <div class="persona-desc">Not sure if something your child received is safe? Check it here. We explain what's
+            wrong in everyday words.</div>
+          <div class="persona-features">
+            <span>✅ No jargon</span>
+            <span>✅ Emoji-guided verdict</span>
+            <span>✅ Share result link</span>
+          </div>
+          <button class="persona-cta" data-mode="simple">Use Simple Mode →</button>
+        </div>
+
+        <div class="persona-card" id="personaIT">
+          <div class="persona-emoji">🔐</div>
+          <div class="persona-title">IT / Security Team</div>
+          <div class="persona-desc">Full forensic breakdown: malware family attribution, MITRE ATT&CK mapping, 8-vendor
+            AV consensus, and Evidence Graph.</div>
+          <div class="persona-features">
+            <span>✅ Malware family ID</span>
+            <span>✅ MITRE ATT&CK map</span>
+            <span>✅ Evidence Graph</span>
+          </div>
+          <button class="persona-cta analyst" data-mode="analyst">Use Analyst Mode →</button>
+        </div>
+
+        <div class="persona-card" id="personaDev">
+          <div class="persona-emoji">💻</div>
+          <div class="persona-title">Developer / Enterprise</div>
+          <div class="persona-desc">REST API with batch scanning (100 URLs in &lt;3s), rate limiting, Prometheus
+            metrics, and structured JSON logs.</div>
+          <div class="persona-features">
+            <span>✅ REST API</span>
+            <span>✅ Batch scan (100 URLs)</span>
+            <span>✅ Prometheus metrics</span>
+          </div>
+          <button class="persona-cta dev" data-mode="api">View API Docs →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-section">
+      <h2 class="section-title">How it works</h2>
+      <p class="section-subtitle">3 steps. Under 1 second.</p>
+      <div class="how-steps">
+        <div class="how-step">
+          <div class="step-number">1</div>
+          <div class="step-icon">📋</div>
+          <div class="step-title">Paste or Upload</div>
+          <div class="step-desc">Drop in a suspicious link, email file (.eml), or attachment (PDF, Word, ZIP)</div>
+        </div>
+        <div class="how-arrow">→</div>
+        <div class="how-step">
+          <div class="step-number">2</div>
+          <div class="step-icon">🤖</div>
+          <div class="step-title">AI Analyses It</div>
+          <div class="step-desc">8 security engines check it: URL structure, malware databases, phishing feeds, and AI
+            social engineering analysis</div>
+        </div>
+        <div class="how-arrow">→</div>
+        <div class="how-step">
+          <div class="step-number">3</div>
+          <div class="step-icon">✅</div>
+          <div class="step-title">Get Your Answer</div>
+          <div class="step-desc">A clear verdict in plain English with exactly what to do next — whether you're an
+            employee or a security expert</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">94.1%</div>
+          <div class="stat-label">Detection Precision</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">2,847</div>
+          <div class="stat-label">Tested Phishing Samples</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">&lt; 1s</div>
+          <div class="stat-label">Avg Scan Time</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">9</div>
+          <div class="stat-label">Malware Families Identified</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">100/3s</div>
+          <div class="stat-label">Batch Scan (URLs)</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">0</div>
+          <div class="stat-label">Your Data Stored*</div>
+        </div>
+      </div>
+
+      <!-- AI Quote Integration -->
+      <div
+        style="margin-top: 3rem; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border-mid); border-radius: var(--radius-lg); padding: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+        <div
+          style="font-size: 0.85rem; font-weight: 700; color: var(--accent-cyan); font-family: var(--font-mono); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
+          🤖 AI Wisdom of the Moment</div>
+        <div id="aiDailyQuote" style="font-size: 1.1rem; color: #fff; font-style: italic; margin-bottom: 0.5rem;">
+          Loading quote...</div>
+        <div id="aiDailyQuoteAuthor" style="font-size: 0.85rem; color: var(--text-dim); text-align: right;"></div>
+      </div>
+
+      <div class="stats-note" style="margin-top: 2rem;">*Email bodies are hashed, not stored. Scans auto-deleted after
+        30 days.</div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+      <div class="footer-brand">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="m9 12 2 2 4-4" />
+        </svg>
+        ShieldCheck by ShieldCheck — Web-A-Thon 2.0 · Problem P12
+      </div>
+      <div class="footer-links">
+        <a href="/api/docs" target="_blank">API Docs</a>
+        <a href="/api/metrics" target="_blank">Live Metrics</a>
+        <a href="/api/metrics/prometheus" target="_blank">Prometheus</a>
+        <button id="footerJudgeDocs" class="footer-link-btn">Judge Documentation</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MAIN APP (hidden until user enters) -->
+  <!-- ============================================================ -->
+  <div id="appPage" style="display:none;">
+
+    <!-- App Header -->
+    <header class="app-header">
+      <div class="app-header-inner">
+        <button class="back-to-home" id="backToHome">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5" />
+            <path d="m12 5-7 7 7 7" />
+          </svg>
+          Home
+        </button>
+        <div class="brand-wrapper">
+          <div class="brand-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+          </div>
+          <div>
+            <span class="brand-title">ShieldCheck</span>
+            <span class="brand-sub">by ShieldCheck</span>
           </div>
         </div>
 
-        <!-- What to Do Now -->
-        <div class="action-card" id="actionCard">
-          <div class="action-card-title">👇 What should you do?</div>
-          <div class="action-steps" id="actionSteps">
-            <!-- filled dynamically -->
-          </div>
-          <div class="action-btns">
-            <button class="btn-report" id="btnSimpleReport">📨 Report to IT Team</button>
-            <button class="btn-safe" id="btnMarkSafe">✅ This Looks Safe to Me</button>
-          </div>
-        </div>
-
-        <!-- Why Was It Flagged -->
-        <div class="why-card glass-panel" id="whyCard">
-          <div class="why-title">🔍 Why was this flagged?</div>
-          <ul class="why-list" id="whyList"></ul>
-        </div>
-
-        <!-- Switch to Deep Analysis -->
-        <div class="switch-hint">
-          Want more technical details?
-          <button class="switch-link" id="switchToAnalyst">Open Full Analysis →</button>
-        </div>
-      </section>
-
-      <!-- ========================= -->
-      <!-- ANALYST MODE RESULTS -->
-      <!-- ========================= -->
-      <section id="analystModeResults" class="analyst-results">
-
-        <!-- Status Banner -->
-        <div class="glass-panel analyst-status-bar">
-          <div class="analyst-status-left">
-            <div>
-              <span class="inspector-label">SOC Verdict</span>
-              <div id="analystVerdictVal" class="analyst-verdict-val">PHISHING</div>
-            </div>
-            <div>
-              <span class="inspector-label">Confidence</span>
-              <div id="analystConfidenceVal" class="analyst-conf-val">95.0%</div>
-            </div>
-            <div>
-              <span class="inspector-label">Scan ID</span>
-              <div id="analystScanId" class="analyst-scan-id">--</div>
-            </div>
-            <div>
-              <span class="inspector-label">Latency</span>
-              <div id="analystLatency" class="analyst-latency-val">--</div>
-            </div>
-          </div>
-          <button id="btnOpenOverrideModal" class="btn-secondary">
-            ✏️ Override / False Positive
+        <!-- Mode Switcher -->
+        <div class="mode-switcher">
+          <button class="mode-btn active" id="modeSimple" title="Simple mode — plain English results">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            Simple
+          </button>
+          <button class="mode-btn" id="modeAnalyst" title="Analyst mode — full forensic breakdown">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <path d="m4.93 4.93 4.24 4.24" />
+              <path d="m14.83 9.17 4.24-4.24" />
+            </svg>
+            Analyst
+          </button>
+          <button class="mode-btn docs-mode-btn" id="modeDocsBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+            </svg>
+            📖 Docs
           </button>
         </div>
 
-        <!-- AI Forensics Card -->
-        <div class="glass-panel ai-forensics-card">
-          <div class="card-header">
-            <div class="card-header-left">
-              <span class="card-icon">🧠</span>
-              <h3>AI Forensics & ML Intelligence</h3>
-            </div>
-            <span id="aiModelBadge" class="tag-badge cyan">RandomForest + Gemini LLM</span>
+        <!-- Live Metrics Pill -->
+        <div class="header-metrics">
+          <span class="metric-pill green" id="systemStatus">● LIVE</span>
+          <span class="metric-pill" id="cacheHitPill" title="Cache hit rate">Cache --</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main">
+
+      <!-- ============================== -->
+      <!-- SCANNER PANEL -->
+      <!-- ============================== -->
+      <section class="scanner-panel glass-panel">
+
+        <!-- Input Mode Tabs -->
+        <div class="scan-nav-tabs">
+          <button class="tab-btn active" data-pane="emlPane">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+            Email (.eml)
+          </button>
+          <button class="tab-btn" data-pane="urlPane">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+            </svg>
+            URL / Link
+          </button>
+          <button class="tab-btn" data-pane="attPane">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+            </svg>
+            Attachment
+          </button>
+          <button class="tab-btn" data-pane="batchPane">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="8" y1="6" x2="21" y2="6" />
+              <line x1="8" y1="12" x2="21" y2="12" />
+              <line x1="8" y1="18" x2="21" y2="18" />
+              <line x1="3" y1="6" x2="3.01" y2="6" />
+              <line x1="3" y1="12" x2="3.01" y2="12" />
+              <line x1="3" y1="18" x2="3.01" y2="18" />
+            </svg>
+            Batch Scan
+          </button>
+        </div>
+
+        <!-- Email Pane -->
+        <div id="emlPane" class="pane active">
+          <div id="emlDropzone" class="dropzone">
+            <input type="file" id="emlFileInput" accept=".eml,.msg,.txt" style="display:none">
+            <div class="dropzone-icon">📧</div>
+            <h3>Drop your email file here</h3>
+            <p class="text-dim">Supports .eml, .msg, .txt — max 10 MB</p>
+            <p class="text-dim" style="font-size:0.78rem; margin-top:0.25rem;">Checks: sender authenticity, hidden
+              links, QR codes, attachment threats</p>
           </div>
-          <div class="forensics-grid">
-            <div class="forensics-cell">
-              <div class="inspector-label">ML Phishing Probability</div>
-              <div class="forensics-value">
-                <span id="aiMlProb" class="big-number cyan">--</span>
-                <span id="aiMlClass" class="small-badge">--</span>
-              </div>
-              <div id="aiTopSignals" class="forensics-sub">Signals: --</div>
+        </div>
+
+        <!-- URL Pane -->
+        <div id="urlPane" class="pane">
+          <div class="url-input-group">
+            <input type="url" id="urlInput" class="url-input"
+              placeholder="Paste a suspicious URL here… e.g. http://microsoft-login-verify.top/auth">
+            <button id="scanUrlBtn" class="btn-primary">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+              Check It
+            </button>
+          </div>
+          <div class="url-quick-chips">
+            <span class="url-chip-label">Try:</span>
+            <button class="url-chip danger" data-url="http://login-microsoft-security.top/auth/renew">Fake
+              Microsoft</button>
+            <button class="url-chip danger" data-url="http://trustpass.fun/o/fz204/payload.exe">Malware Dropper</button>
+            <button class="url-chip danger" data-url="http://secure-appleid-verify.cfd/id">Apple Phish</button>
+            <button class="url-chip safe" data-url="https://google.com">Google ✓</button>
+            <button class="url-chip safe" data-url="https://github.com">GitHub ✓</button>
+          </div>
+        </div>
+
+        <!-- Attachment Pane -->
+        <div id="attPane" class="pane">
+          <div id="attDropzone" class="dropzone">
+            <input type="file" id="attFileInput" accept=".svg,.html,.htm,.pdf,.docx,.docm,.png,.jpg,.exe,.ps1,.zip"
+              style="display:none">
+            <div class="dropzone-icon">📎</div>
+            <h3>Drop a suspicious attachment</h3>
+            <p class="text-dim">PDF, Word, HTML, SVG, ZIP, EXE, PS1 — max 5 MB</p>
+            <p class="text-dim" style="font-size:0.78rem; margin-top:0.25rem;">Detects: HTML smuggling, macros, embedded
+              QR codes, malware signatures</p>
+          </div>
+        </div>
+
+        <!-- Batch Pane -->
+        <div id="batchPane" class="pane">
+          <div class="batch-pane-inner">
+            <div class="batch-header">
+              <span class="batch-title">🚀 Batch URL Scanner</span>
+              <span class="batch-subtitle">Paste up to 100 URLs — one per line. All processed in parallel.</span>
             </div>
-            <div class="forensics-cell">
-              <div class="inspector-label">Social Engineering Pretext</div>
-              <div id="aiPretextCat" class="forensics-value-text">--</div>
-              <div id="aiCoercionTactics" class="forensics-sub">Coercion: --</div>
-            </div>
-            <div class="forensics-cell">
-              <div class="inspector-label">SOC Playbook</div>
-              <ul id="aiPlaybookList" class="playbook-list"><li>--</li></ul>
+            <textarea id="batchUrlInput" class="batch-textarea"
+              placeholder="https://example1.com&#10;https://phishing-site.top/login&#10;https://google.com&#10;…one URL per line, max 100"></textarea>
+            <div class="batch-actions">
+              <span class="batch-count" id="batchCount">0 URLs entered</span>
+              <button id="batchScanBtn" class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+                Scan All
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- AI Copilot Chat -->
-        <div class="glass-panel ai-copilot-card">
-          <div class="card-header">
-            <div class="card-header-left">
-              <span class="card-icon">💬</span>
-              <h3>AI Security Copilot</h3>
-              <span class="tag-badge purple">LIVE</span>
-            </div>
-          </div>
-          <div class="ai-prompt-chips">
-            <button class="ai-chip-btn" data-q="Why was this flagged as a threat?">💡 Why flagged?</button>
-            <button class="ai-chip-btn" data-q="What immediate containment steps should the SOC team take?">🛡️ SOC steps</button>
-            <button class="ai-chip-btn" data-q="How does the ML Random Forest model score this URL?">🧠 ML logic</button>
-            <button class="ai-chip-btn" data-q="How does the system scale to handle thousands of emails per minute?">⚡ Scalability</button>
-            <button class="ai-chip-btn" data-q="What security controls protect against SSRF and rate limiting abuse?">🔒 Security controls</button>
-          </div>
-          <div id="aiChatConversation" class="ai-chat-box">
-            <div class="ai-msg bot">
-              <span class="ai-msg-role">🤖 Copilot:</span>
-              <p>I'm your Threat Analysis Copilot. Click a prompt above or ask me anything about this scan or the platform's architecture.</p>
-            </div>
-          </div>
-          <form id="aiChatForm" class="ai-chat-input-row">
-            <input type="text" id="aiChatInput" placeholder="Ask anything… 'What is HTML smuggling?' or 'How do I stay safe?'" autocomplete="off">
-            <button type="submit" id="aiChatSubmitBtn" class="btn-primary" style="padding:0.6rem 1.1rem;font-size:0.85rem;">Ask AI</button>
-          </form>
+        <!-- 1-Click Samples -->
+        <div class="sample-pills">
+          <span class="sample-label">⚡ 1-Click Attack Demos:</span>
+          <span class="sample-chip" data-sample="svg_smuggling">SVG Smuggling</span>
+          <span class="sample-chip" data-sample="brand_typosquat">MS Typosquat</span>
+          <span class="sample-chip" data-sample="dga_entropy">DGA Domain</span>
+          <span class="sample-chip" data-sample="captcha_wall">CAPTCHA Evasion</span>
+          <span class="sample-chip safe-chip" data-sample="clean_email">✅ Safe Email</span>
         </div>
 
-        <!-- Evidence Graph + Inspector -->
-        <div class="analyst-grid">
-          <div class="glass-panel graph-container">
-            <div class="graph-header">
-              <div class="graph-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><line x1="9" y1="6" x2="15" y2="6"/><line x1="6" y1="9" x2="6" y2="15"/><line x1="18" y1="9" x2="18" y2="15"/></svg>
-                Attack Evidence Chain
-              </div>
-              <div class="graph-legend">
-                <span><span class="legend-dot" style="background:#00f2fe;"></span>Safe</span>
-                <span><span class="legend-dot" style="background:#ffb300;"></span>Caution</span>
-                <span><span class="legend-dot" style="background:#ff3366;"></span>Threat</span>
-                <span><span class="legend-dot" style="background:#a855f7;"></span>Unknown</span>
-              </div>
-            </div>
-            <canvas id="graphCanvas"></canvas>
-            <div class="graph-hint">Click any node to inspect · Red = Critical Risk Path</div>
-          </div>
-          <div class="glass-panel node-inspector">
-            <div class="inspector-title">Entity Inspector</div>
-            <div id="nodeInspectorContent">
-              <p class="text-dim" style="font-size:0.85rem;">Click any node in the graph to inspect its attributes, entropy score, and risk contribution.</p>
-            </div>
-          </div>
+        <!-- Loading Indicator -->
+        <div id="scanLoadingIndicator" class="scan-loading" style="display:none">
+          <div class="loading-spinner"></div>
+          <span id="loadingMsg">Analysing with 8 security engines…</span>
         </div>
+      </section>
 
-        <!-- VirusTotal Multi-Engine Card -->
-        <div class="glass-panel vt-card">
-          <div class="card-header">
-            <div class="card-header-left">
-              <span class="card-icon">🛡️</span>
+      <!-- ============================== -->
+      <!-- RESULTS AREA -->
+      <!-- ============================== -->
+      <div id="resultsContainer" style="display:none">
+
+        <!-- ========================= -->
+        <!-- SIMPLE MODE RESULTS -->
+        <!-- ========================= -->
+        <section id="simpleModeResults" class="simple-results active">
+
+          <!-- Big Verdict Card -->
+          <div class="verdict-hero-card" id="verdictHeroCard">
+            <div class="verdict-emoji" id="verdictEmoji">🔴</div>
+            <div class="verdict-headline" id="verdictHeadline">Dangerous! Do not click.</div>
+            <div class="verdict-subtext" id="verdictSubtext">This link is trying to steal your password.</div>
+
+            <!-- What exactly was found -->
+            <div class="verdict-threat-tag" id="verdictThreatTag" style="display:none">
+              <span class="threat-tag-icon">☣️</span>
+              <span id="verdictThreatName"></span>
+            </div>
+
+            <!-- Risk Meter -->
+            <div class="risk-meter-wrap">
+              <div class="risk-meter-label">
+                <span>Safe</span>
+                <span id="riskMeterScore">--</span>
+                <span>Dangerous</span>
+              </div>
+              <div class="risk-meter-bar">
+                <div class="risk-meter-fill" id="riskMeterFill"></div>
+                <div class="risk-meter-thumb" id="riskMeterThumb"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- What to Do Now -->
+          <div class="action-card" id="actionCard">
+            <div class="action-card-title">👇 What should you do?</div>
+            <div class="action-steps" id="actionSteps">
+              <!-- filled dynamically -->
+            </div>
+            <div class="action-btns">
+              <button class="btn-report" id="btnSimpleReport">📨 Report to IT Team</button>
+              <button class="btn-safe" id="btnMarkSafe">✅ This Looks Safe to Me</button>
+            </div>
+          </div>
+
+          <!-- Why Was It Flagged -->
+          <div class="why-card glass-panel" id="whyCard">
+            <div class="why-title">🔍 Why was this flagged?</div>
+            <ul class="why-list" id="whyList"></ul>
+          </div>
+
+          <!-- Switch to Deep Analysis -->
+          <div class="switch-hint">
+            Want more technical details?
+            <button class="switch-link" id="switchToAnalyst">Open Full Analysis →</button>
+          </div>
+        </section>
+
+        <!-- ========================= -->
+        <!-- ANALYST MODE RESULTS -->
+        <!-- ========================= -->
+        <section id="analystModeResults" class="analyst-results">
+
+          <!-- Status Banner -->
+          <div class="glass-panel analyst-status-bar">
+            <div class="analyst-status-left">
               <div>
-                <h3>Multi-Engine Security Consensus</h3>
-                <span class="card-sub">8 enterprise AV engines · YARA patterns · exact malware attribution</span>
+                <span class="inspector-label">SOC Verdict</span>
+                <div id="analystVerdictVal" class="analyst-verdict-val">PHISHING</div>
+              </div>
+              <div>
+                <span class="inspector-label">Confidence</span>
+                <div id="analystConfidenceVal" class="analyst-conf-val">95.0%</div>
+              </div>
+              <div>
+                <span class="inspector-label">Scan ID</span>
+                <div id="analystScanId" class="analyst-scan-id">--</div>
+              </div>
+              <div>
+                <span class="inspector-label">Latency</span>
+                <div id="analystLatency" class="analyst-latency-val">--</div>
               </div>
             </div>
-            <div class="vt-ratio-badges">
-              <span id="vtMitreBadge" class="tag-badge red">MITRE: T1566</span>
-              <span id="vtRatioBadge" class="vt-ratio-pill">0 / 8 Flagged</span>
+            <button id="btnOpenOverrideModal" class="btn-secondary">
+              ✏️ Override / False Positive
+            </button>
+          </div>
+
+          <!-- AI Forensics Card -->
+          <div class="glass-panel ai-forensics-card">
+            <div class="card-header">
+              <div class="card-header-left">
+                <span class="card-icon">🧠</span>
+                <h3>AI Forensics & ML Intelligence</h3>
+              </div>
+              <span id="aiModelBadge" class="tag-badge cyan">RandomForest + Gemini LLM</span>
+            </div>
+            <div class="forensics-grid">
+              <div class="forensics-cell">
+                <div class="inspector-label">ML Phishing Probability</div>
+                <div class="forensics-value">
+                  <span id="aiMlProb" class="big-number cyan">--</span>
+                  <span id="aiMlClass" class="small-badge">--</span>
+                </div>
+                <div id="aiTopSignals" class="forensics-sub">Signals: --</div>
+              </div>
+              <div class="forensics-cell">
+                <div class="inspector-label">Social Engineering Pretext</div>
+                <div id="aiPretextCat" class="forensics-value-text">--</div>
+                <div id="aiCoercionTactics" class="forensics-sub">Coercion: --</div>
+              </div>
+              <div class="forensics-cell">
+                <div class="inspector-label">SOC Playbook</div>
+                <ul id="aiPlaybookList" class="playbook-list">
+                  <li>--</li>
+                </ul>
+              </div>
             </div>
           </div>
-          <div class="vt-family-row" id="vtExactVirusBox">
-            <div>
-              <span class="inspector-label">Attributed Threat Family</span>
-              <div id="vtThreatFamilyName" class="vt-family-name">Clean.NoThreatDetected</div>
+
+          <!-- AI Copilot Chat -->
+          <div class="glass-panel ai-copilot-card">
+            <div class="card-header">
+              <div class="card-header-left">
+                <span class="card-icon">💬</span>
+                <h3>AI Security Copilot</h3>
+                <span class="tag-badge purple">LIVE</span>
+              </div>
             </div>
-            <div>
-              <span class="inspector-label">Threat Category</span>
-              <div id="vtThreatCategory" class="vt-threat-cat">Benign</div>
+            <div class="ai-prompt-chips">
+              <button class="ai-chip-btn" data-q="Why was this flagged as a threat?">💡 Why flagged?</button>
+              <button class="ai-chip-btn" data-q="What immediate containment steps should the SOC team take?">🛡️ SOC
+                steps</button>
+              <button class="ai-chip-btn" data-q="How does the ML Random Forest model score this URL?">🧠 ML
+                logic</button>
+              <button class="ai-chip-btn" data-q="How does the system scale to handle thousands of emails per minute?">⚡
+                Scalability</button>
+              <button class="ai-chip-btn"
+                data-q="What security controls protect against SSRF and rate limiting abuse?">🔒 Security
+                controls</button>
+            </div>
+            <div id="aiChatConversation" class="ai-chat-box">
+              <div class="ai-msg bot">
+                <span class="ai-msg-role">🤖 Copilot:</span>
+                <p>I'm your Threat Analysis Copilot. Click a prompt above or ask me anything about this scan or the
+                  platform's architecture.</p>
+              </div>
+            </div>
+            <form id="aiChatForm" class="ai-chat-input-row">
+              <input type="text" id="aiChatInput"
+                placeholder="Ask anything… 'What is HTML smuggling?' or 'How do I stay safe?'" autocomplete="off">
+              <button type="submit" id="aiChatSubmitBtn" class="btn-primary"
+                style="padding:0.6rem 1.1rem;font-size:0.85rem;">Ask AI</button>
+            </form>
+          </div>
+
+          <!-- Evidence Graph + Inspector -->
+          <div class="analyst-grid">
+            <div class="glass-panel graph-container">
+              <div class="graph-header">
+                <div class="graph-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)"
+                    stroke-width="2">
+                    <circle cx="6" cy="6" r="3" />
+                    <circle cx="18" cy="6" r="3" />
+                    <circle cx="6" cy="18" r="3" />
+                    <circle cx="18" cy="18" r="3" />
+                    <line x1="9" y1="6" x2="15" y2="6" />
+                    <line x1="6" y1="9" x2="6" y2="15" />
+                    <line x1="18" y1="9" x2="18" y2="15" />
+                  </svg>
+                  Attack Evidence Chain
+                </div>
+                <div class="graph-legend">
+                  <span><span class="legend-dot" style="background:#00f2fe;"></span>Safe</span>
+                  <span><span class="legend-dot" style="background:#ffb300;"></span>Caution</span>
+                  <span><span class="legend-dot" style="background:#ff3366;"></span>Threat</span>
+                  <span><span class="legend-dot" style="background:#a855f7;"></span>Unknown</span>
+                </div>
+              </div>
+              <canvas id="graphCanvas"></canvas>
+              <div class="graph-hint">Click any node to inspect · Red = Critical Risk Path</div>
+            </div>
+            <div class="glass-panel node-inspector">
+              <div class="inspector-title">Entity Inspector</div>
+              <div id="nodeInspectorContent">
+                <p class="text-dim" style="font-size:0.85rem;">Click any node in the graph to inspect its attributes,
+                  entropy score, and risk contribution.</p>
+              </div>
             </div>
           </div>
-          <div id="threatFeedGrid" class="threat-feed-matrix"></div>
-        </div>
 
-        <!-- NIST XAI -->
-        <div class="glass-panel xai-nist-card">
-          <div class="card-header">
-            <div class="card-header-left">
-              <span class="card-icon">📊</span>
-              <h3>NIST XAI Explainable AI Breakdown</h3>
+          <!-- VirusTotal Multi-Engine Card -->
+          <div class="glass-panel vt-card">
+            <div class="card-header">
+              <div class="card-header-left">
+                <span class="card-icon">🛡️</span>
+                <div>
+                  <h3>Multi-Engine Security Consensus</h3>
+                  <span class="card-sub">8 enterprise AV engines · YARA patterns · exact malware attribution</span>
+                </div>
+              </div>
+              <div class="vt-ratio-badges">
+                <span id="vtMitreBadge" class="tag-badge red">MITRE: T1566</span>
+                <span id="vtRatioBadge" class="vt-ratio-pill">0 / 8 Flagged</span>
+              </div>
             </div>
-            <span class="tag-badge cyan">NIST SP 1270</span>
-          </div>
-          <div class="nist-grid">
-            <div class="nist-pillar"><div class="pillar-name">1. Explanation</div><p id="nistExplanation" class="pillar-desc"></p></div>
-            <div class="nist-pillar"><div class="pillar-name">2. Meaningfulness</div><p id="nistMeaningfulness" class="pillar-desc"></p></div>
-            <div class="nist-pillar"><div class="pillar-name">3. Accuracy</div><pre id="nistAccuracy" class="pillar-desc mono-pre"></pre></div>
-            <div class="nist-pillar"><div class="pillar-name">4. Knowledge Limits</div><p id="nistLimits" class="pillar-desc amber"></p></div>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- ========================= -->
-      <!-- BATCH RESULTS -->
-      <!-- ========================= -->
-      <section id="batchResults" class="batch-results-section" style="display:none">
-        <div class="glass-panel">
-          <div class="card-header">
-            <div class="card-header-left">
-              <span class="card-icon">🚀</span>
-              <h3>Batch Scan Results</h3>
+            <div class="vt-family-row" id="vtExactVirusBox">
+              <div>
+                <span class="inspector-label">Attributed Threat Family</span>
+                <div id="vtThreatFamilyName" class="vt-family-name">Clean.NoThreatDetected</div>
+              </div>
+              <div>
+                <span class="inspector-label">Threat Category</span>
+                <div id="vtThreatCategory" class="vt-threat-cat">Benign</div>
+              </div>
             </div>
-            <div id="batchSummaryBadges" class="batch-summary-badges"></div>
+            <div id="threatFeedGrid" class="threat-feed-matrix"></div>
           </div>
-          <div id="batchResultsTable" class="batch-table-wrap"></div>
-        </div>
-      </section>
 
-    </div><!-- /resultsContainer -->
-
-    <!-- Audit History -->
-    <section class="glass-panel audit-section">
-      <div class="audit-header">
-        <h3>Scan History</h3>
-        <span class="audit-sub">SQLite WAL · auto-purge 30 days · PII hashed</span>
-      </div>
-      <table class="audit-table">
-        <thead>
-          <tr><th>Scan ID</th><th>Type</th><th>Target</th><th>Verdict</th><th>Score</th><th>Time</th></tr>
-        </thead>
-        <tbody id="auditTableBody"></tbody>
-      </table>
-    </section>
-
-    <!-- Live Metrics Dashboard -->
-    <section class="glass-panel metrics-section" id="metricsSection" style="display:none">
-      <div class="card-header">
-        <div class="card-header-left">
-          <span class="card-icon">📈</span>
-          <h3>Live Platform Metrics</h3>
-        </div>
-        <button class="btn-secondary" id="refreshMetrics" style="font-size:0.8rem;padding:0.4rem 0.8rem;">↻ Refresh</button>
-      </div>
-      <div class="metrics-grid" id="metricsGrid"></div>
-    </section>
-
-  </main>
-</div>
-
-<!-- ============================================================ -->
-<!-- MODALS -->
-<!-- ============================================================ -->
-
-<!-- Override Modal -->
-<div id="overrideModal" class="modal-overlay">
-  <div class="modal-box">
-    <h3 class="modal-title">Record Override / False Positive</h3>
-    <p class="text-dim" style="font-size:0.85rem;margin-bottom:1.25rem;">Provide auditable justification for overriding the automated verdict.</p>
-    <form id="overrideForm">
-      <input type="hidden" id="modalScanId">
-      <div class="form-group">
-        <label>Target</label>
-        <input type="text" id="modalTarget" class="form-control" readonly>
-      </div>
-      <div class="form-group">
-        <label>Feedback Type</label>
-        <select id="modalFeedbackType" class="form-control">
-          <option value="false_positive">False Positive — Flagged as threat but actually safe</option>
-          <option value="false_negative">False Negative — Marked safe but actually malicious</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Override Verdict</label>
-        <select id="modalOverrideVerdict" class="form-control">
-          <option value="BENIGN">BENIGN (Safe)</option>
-          <option value="PHISHING">PHISHING (Threat)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Analyst Notes</label>
-        <textarea id="modalAnalystNotes" class="form-control" rows="3" placeholder="Explain why this verdict should be overridden…" required></textarea>
-      </div>
-      <div style="display:flex;justify-content:flex-end;gap:0.75rem;">
-        <button type="button" id="modalCloseBtn" class="btn-secondary">Cancel</button>
-        <button type="submit" class="btn-primary">Save Override</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- Docs / Judge Pitch Modal -->
-<div id="docsModal" class="modal-overlay">
-  <div class="docs-modal-box">
-    <div class="docs-modal-header">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">📖</span>
-        <div>
-          <h3 style="font-size:1.1rem;font-weight:800;color:#fff;margin:0;">AntiGravity — Judge & Architecture Guide</h3>
-          <span style="font-size:0.72rem;font-family:var(--font-mono);color:var(--accent-cyan);">PROBLEM P12 · WEB-A-THON 2.0 · NIST XAI + SECURITY HARDENED</span>
-        </div>
-      </div>
-      <button type="button" id="docsCloseBtn" class="btn-secondary" style="padding:0.4rem 0.85rem;font-size:0.8rem;">✕ Close</button>
-    </div>
-    <div class="docs-tabs-nav">
-      <button type="button" class="docs-tab-btn active" data-pane="docPanePitch">🏆 Pitch</button>
-      <button type="button" class="docs-tab-btn" data-pane="docPaneAI">🧠 AI Architecture</button>
-      <button type="button" class="docs-tab-btn" data-pane="docPaneScalability">⚡ Scalability</button>
-      <button type="button" class="docs-tab-btn" data-pane="docPaneSecurity">🔒 Security</button>
-      <button type="button" class="docs-tab-btn" data-pane="docPaneDifferent">⚔️ Differentiators</button>
-      <button type="button" class="docs-tab-btn" data-pane="docPaneQA">❓ Judge Q&A</button>
-    </div>
-    <div class="docs-content-area">
-
-      <!-- PITCH -->
-      <div id="docPanePitch" class="docs-pane active">
-        <div class="doc-section-title">🏆 The Pitch & Problem Statement</div>
-        <div class="doc-section-desc">Problem P12: Multi-Modal Phishing Email, URL & Malware Detection Platform</div>
-        <div class="doc-card highlight">
-          <h4 style="color:var(--accent-cyan);margin-bottom:0.5rem;">30-Second Pitch</h4>
-          <p style="font-size:0.9rem;color:#fff;line-height:1.6;">
-            "90% of cyberbreaches start with phishing — Colonial Pipeline, SolarWinds, MGM Resorts. Today's attackers bypass Gmail and VirusTotal using <strong>QR codes (Quishing)</strong>, <strong>in-memory HTML smuggling</strong>, and <strong>CAPTCHA evasion walls</strong>.<br><br>
-            <strong>ShieldCheck by AntiGravity</strong> is the first platform designed for <em>every person</em>, not just security experts. A parent, student, or employee gets a plain-English verdict in 1 second. An IT analyst gets full malware attribution, MITRE ATT&amp;CK mapping, 8-vendor AV consensus, and a visual Evidence Graph — all from the same tool, with zero data stored."
-          </p>
-        </div>
-        <div class="doc-card">
-          <h4 style="color:#fff;margin-bottom:0.5rem;">Who uses this?</h4>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;font-size:0.85rem;">
-            <div style="background:rgba(0,242,254,0.08);padding:0.75rem;border-radius:8px;border:1px solid rgba(0,242,254,0.2);">👩‍💼 <strong>Employees</strong><br>Get a safe/unsafe verdict in plain English</div>
-            <div style="background:rgba(0,242,254,0.08);padding:0.75rem;border-radius:8px;border:1px solid rgba(0,242,254,0.2);">👨‍👩‍👧 <strong>Parents & Students</strong><br>No jargon, emoji-guided results</div>
-            <div style="background:rgba(255,51,102,0.08);padding:0.75rem;border-radius:8px;border:1px solid rgba(255,51,102,0.2);">🔐 <strong>IT Security Teams</strong><br>Full forensic analyst mode</div>
-            <div style="background:rgba(121,40,202,0.08);padding:0.75rem;border-radius:8px;border:1px solid rgba(121,40,202,0.2);">💻 <strong>Developers</strong><br>REST API, batch scan, Prometheus metrics</div>
+          <!-- NIST XAI -->
+          <div class="glass-panel xai-nist-card">
+            <div class="card-header">
+              <div class="card-header-left">
+                <span class="card-icon">📊</span>
+                <h3>NIST XAI Explainable AI Breakdown</h3>
+              </div>
+              <span class="tag-badge cyan">NIST SP 1270</span>
+            </div>
+            <div class="nist-grid">
+              <div class="nist-pillar">
+                <div class="pillar-name">1. Explanation</div>
+                <p id="nistExplanation" class="pillar-desc"></p>
+              </div>
+              <div class="nist-pillar">
+                <div class="pillar-name">2. Meaningfulness</div>
+                <p id="nistMeaningfulness" class="pillar-desc"></p>
+              </div>
+              <div class="nist-pillar">
+                <div class="pillar-name">3. Accuracy</div>
+                <pre id="nistAccuracy" class="pillar-desc mono-pre"></pre>
+              </div>
+              <div class="nist-pillar">
+                <div class="pillar-name">4. Knowledge Limits</div>
+                <p id="nistLimits" class="pillar-desc amber"></p>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="doc-card">
-          <h4 style="color:#fff;margin-bottom:0.5rem;">📊 Real-World Performance</h4>
-          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-            <div style="background:rgba(0,242,254,0.1);border:1px solid rgba(0,242,254,0.3);border-radius:8px;padding:0.75rem 1.25rem;text-align:center;"><div style="font-size:1.5rem;font-weight:800;font-family:var(--font-mono);color:var(--accent-cyan);">94.1%</div><div style="font-size:0.75rem;color:var(--text-muted);">Precision</div></div>
-            <div style="background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.3);border-radius:8px;padding:0.75rem 1.25rem;text-align:center;"><div style="font-size:1.5rem;font-weight:800;font-family:var(--font-mono);color:#00e676;">96.3%</div><div style="font-size:0.75rem;color:var(--text-muted);">Recall</div></div>
-            <div style="background:rgba(121,40,202,0.1);border:1px solid rgba(121,40,202,0.3);border-radius:8px;padding:0.75rem 1.25rem;text-align:center;"><div style="font-size:1.5rem;font-weight:800;font-family:var(--font-mono);color:#c084fc;">58</div><div style="font-size:0.75rem;color:var(--text-muted);">Tests Passing</div></div>
-            <div style="background:rgba(255,179,0,0.1);border:1px solid rgba(255,179,0,0.3);border-radius:8px;padding:0.75rem 1.25rem;text-align:center;"><div style="font-size:1.5rem;font-weight:800;font-family:var(--font-mono);color:#ffb300;">26ms</div><div style="font-size:0.75rem;color:var(--text-muted);">Avg/URL (100x batch)</div></div>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- BATCH RESULTS -->
+        <!-- ========================= -->
+        <section id="batchResults" class="batch-results-section" style="display:none">
+          <div class="glass-panel">
+            <div class="card-header">
+              <div class="card-header-left">
+                <span class="card-icon">🚀</span>
+                <h3>Batch Scan Results</h3>
+              </div>
+              <div id="batchSummaryBadges" class="batch-summary-badges"></div>
+            </div>
+            <div id="batchResultsTable" class="batch-table-wrap"></div>
           </div>
-        </div>
-      </div>
+        </section>
 
-      <!-- AI ARCHITECTURE -->
-      <div id="docPaneAI" class="docs-pane">
-        <div class="doc-section-title">🧠 AI Architecture — 4 Layers</div>
-        <div class="doc-section-desc">Three AI layers + NIST XAI explainability — all working together in one async pipeline.</div>
-        <div class="doc-card highlight">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;"><h4 style="color:var(--accent-cyan);font-size:0.95rem;margin:0;">Layer 1: Random Forest ML Classifier</h4><span class="doc-pill">15 FEATURES · &lt;2ms</span></div>
-          <p style="font-size:0.85rem;color:var(--text-muted);">Extracts 15 structural features from every URL: Shannon entropy, brand impersonation distance, suspicious TLDs, digit ratios, executable extensions. Trained on 2,847 labeled samples. Precision: 94.1%.</p>
-        </div>
-        <div class="doc-card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;"><h4 style="color:#fff;font-size:0.95rem;margin:0;">Layer 2: Computer Vision QR/Quishing Detector</h4><span class="doc-pill" style="color:#ffb300;border-color:rgba(255,179,0,0.3);background:rgba(255,179,0,0.1);">OPENCV</span></div>
-          <p style="font-size:0.85rem;color:var(--text-muted);">Uses cv2.QRCodeDetector with adaptive thresholding to extract hidden destination URLs from images, PDFs, and email attachments before a user scans them on their phone.</p>
-        </div>
-        <div class="doc-card purple-glow">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;"><h4 style="color:#c084fc;font-size:0.95rem;margin:0;">Layer 3: Google Gemini LLM + Offline Fallback</h4><span class="doc-pill" style="color:#c084fc;border-color:rgba(121,40,202,0.4);background:rgba(121,40,202,0.15);">HYBRID LLM</span></div>
-          <p style="font-size:0.85rem;color:var(--text-muted);">When a GEMINI_API_KEY is set, Gemini 1.5 Flash analyzes social engineering psychology. When offline: instant heuristic engine (0 latency, 0 cost, 100% private). 3-tier fallback: Gemini → Heuristics → Cached Intel.</p>
-        </div>
-        <div class="doc-card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;"><h4 style="color:#fff;font-size:0.95rem;margin:0;">Layer 4: NIST SP 1270 Explainable AI (XAI)</h4><span class="doc-pill">NIST COMPLIANT</span></div>
-          <p style="font-size:0.85rem;color:var(--text-muted);">Replaces opaque risk scores with 4 human-readable pillars: Explanation, Meaningfulness, Accuracy, Knowledge Limits. Every verdict explains <em>why</em> something was flagged, not just that it was.</p>
-        </div>
-      </div>
+      </div><!-- /resultsContainer -->
 
-      <!-- SCALABILITY -->
-      <div id="docPaneScalability" class="docs-pane">
-        <div class="doc-section-title">⚡ Scalability Architecture</div>
-        <div class="doc-section-desc">Verified 10x and 100x load tests with live evidence.</div>
-        <div class="doc-card highlight">
-          <h4 style="color:var(--accent-cyan);margin-bottom:0.75rem;">Load Test Results (run live: python scripts/load_test.py)</h4>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;font-family:var(--font-mono);font-size:0.82rem;">
-            <div style="background:rgba(0,0,0,0.4);padding:0.75rem;border-radius:6px;border:1px solid rgba(0,242,254,0.2);"><div style="color:var(--accent-cyan);">10x CONCURRENT</div><div style="color:#fff;font-size:1.1rem;font-weight:700;margin-top:0.25rem;">2,588ms total</div><div style="color:var(--text-dim);">0/10 errors · SSRF blocked ✅</div></div>
-            <div style="background:rgba(0,0,0,0.4);padding:0.75rem;border-radius:6px;border:1px solid rgba(0,242,254,0.2);"><div style="color:var(--accent-cyan);">100x BATCH</div><div style="color:#fff;font-size:1.1rem;font-weight:700;margin-top:0.25rem;">2,685ms / 26ms avg</div><div style="color:var(--text-dim);">/api/scan/batch endpoint ✅</div></div>
-            <div style="background:rgba(0,0,0,0.4);padding:0.75rem;border-radius:6px;border:1px solid rgba(0,242,254,0.2);"><div style="color:var(--accent-cyan);">RATE LIMITING</div><div style="color:#fff;font-size:1.1rem;font-weight:700;margin-top:0.25rem;">16/20 throttled</div><div style="color:var(--text-dim);">HTTP 429 + Retry-After ✅</div></div>
-            <div style="background:rgba(0,0,0,0.4);padding:0.75rem;border-radius:6px;border:1px solid rgba(0,242,254,0.2);"><div style="color:var(--accent-cyan);">LRU CACHE</div><div style="color:#fff;font-size:1.1rem;font-weight:700;margin-top:0.25rem;">&lt;10ms repeat</div><div style="color:var(--text-dim);">1000-entry, 5-min TTL ✅</div></div>
-          </div>
+      <!-- Audit History -->
+      <section class="glass-panel audit-section">
+        <div class="audit-header">
+          <h3>Scan History</h3>
+          <span class="audit-sub">SQLite WAL · auto-purge 30 days · PII hashed</span>
         </div>
-        <div class="doc-card">
-          <h4 style="color:#fff;margin-bottom:0.5rem;">Scalability at 10x / 100x / 1000x</h4>
-          <ul style="padding-left:1.25rem;font-size:0.85rem;color:var(--text-muted);line-height:1.7;">
-            <li><strong>10x:</strong> Asyncio + ThreadPoolExecutor across all CPU cores. No bottleneck.</li>
-            <li><strong>100x:</strong> /api/scan/batch endpoint with asyncio.gather(). 100 URLs in &lt;3s.</li>
-            <li><strong>1000x:</strong> Deploy N stateless replicas behind a load balancer. SQLite → PostgreSQL for multi-instance writes. LRU cache → Redis for shared state.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- SECURITY -->
-      <div id="docPaneSecurity" class="docs-pane">
-        <div class="doc-section-title">🔒 Security Controls</div>
-        <div class="doc-section-desc">Hardened against real attacks — not just demo-safe.</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;">
-          <div class="doc-card"><h4 style="color:var(--accent-cyan);font-size:0.9rem;margin-bottom:0.4rem;">⚡ Rate Limiting</h4><p style="font-size:0.82rem;color:var(--text-muted);">15 scans/min, 20 AI queries/min per IP. HTTP 429 + Retry-After header. In-memory sliding-window limiter — no Redis needed for demo.</p></div>
-          <div class="doc-card"><h4 style="color:var(--accent-cyan);font-size:0.9rem;margin-bottom:0.4rem;">🛡️ SSRF Guard</h4><p style="font-size:0.82rem;color:var(--text-muted);">Blocks RFC 1918 (10.x, 172.16.x, 192.168.x), loopback (127.x, localhost), cloud metadata (169.254.169.254), and dangerous schemes (file://, ftp://, gopher://).</p></div>
-          <div class="doc-card"><h4 style="color:var(--accent-cyan);font-size:0.9rem;margin-bottom:0.4rem;">🔍 Input Validation</h4><p style="font-size:0.82rem;color:var(--text-muted);">URL max 2048 chars. Email max 10MB. Attachment max 5MB. Extension whitelist enforced server-side. Content validated before any processing.</p></div>
-          <div class="doc-card"><h4 style="color:var(--accent-cyan);font-size:0.9rem;margin-bottom:0.4rem;">🔐 PII Protection</h4><p style="font-size:0.82rem;color:var(--text-muted);">Email bodies stored as SHA-256 hashes — never raw content. Auto-purge: all scan records deleted after 30 days. URL targets truncated to 200 chars in logs.</p></div>
-          <div class="doc-card"><h4 style="color:var(--accent-cyan);font-size:0.9rem;margin-bottom:0.4rem;">📊 Structured Logging</h4><p style="font-size:0.82rem;color:var(--text-muted);">JSON log lines with timestamp, level, request_id, latency_ms for every scan. Prometheus-compatible /api/metrics/prometheus endpoint for monitoring.</p></div>
-          <div class="doc-card"><h4 style="color:var(--accent-cyan);font-size:0.9rem;margin-bottom:0.4rem;">🔑 No Hardcoded Secrets</h4><p style="font-size:0.82rem;color:var(--text-muted);">All API keys (GEMINI_API_KEY) via environment variables. Default mode is fully offline — zero external dependencies required to run.</p></div>
-        </div>
-      </div>
-
-      <!-- DIFFERENTIATORS -->
-      <div id="docPaneDifferent" class="docs-pane">
-        <div class="doc-section-title">⚔️ Why We're Different</div>
-        <div class="doc-section-desc">Head-to-head vs Gmail, VirusTotal, and SpamAssassin.</div>
-        <table class="doc-table">
-          <thead><tr><th>Feature / Attack</th><th>Gmail / VirusTotal</th><th>ShieldCheck (Ours)</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Target Audience</strong></td><td>Security professionals only</td><td>Everyone — employees, parents, students, IT</td></tr>
-            <tr><td><strong>Result Language</strong></td><td>Risk score (opaque number)</td><td>Plain English verdict + emoji + step-by-step actions</td></tr>
-            <tr><td><strong>Quishing / QR Codes</strong></td><td>❌ Text-only scanners miss QR images</td><td>✅ OpenCV QR decoder in every email and attachment</td></tr>
-            <tr><td><strong>HTML/SVG Smuggling</strong></td><td>❌ Misses in-memory Blob assembly</td><td>✅ AST/regex detects Blob(), createObjectURL(), atob()</td></tr>
-            <tr><td><strong>CAPTCHA Evasion</strong></td><td>❌ Bot blocked → marks site "Clean"</td><td>✅ UNKNOWN_GUARDED state — alerts analyst explicitly</td></tr>
-            <tr><td><strong>Malware Attribution</strong></td><td>Generic "Malware detected"</td><td>Exact family: LummaStealer, AsyncRAT, LockBit, etc.</td></tr>
-            <tr><td><strong>Explainability</strong></td><td>None</td><td>NIST SP 1270 XAI: 4 human-readable pillars</td></tr>
-            <tr><td><strong>Batch Scanning</strong></td><td>One URL at a time</td><td>/api/scan/batch: 100 URLs in &lt;3 seconds</td></tr>
-            <tr><td><strong>Security Controls</strong></td><td>Not your concern</td><td>SSRF guard, rate limiting, PII hashing, 58 tests</td></tr>
-          </tbody>
+        <table class="audit-table">
+          <thead>
+            <tr>
+              <th>Scan ID</th>
+              <th>Type</th>
+              <th>Target</th>
+              <th>Verdict</th>
+              <th>Score</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody id="auditTableBody"></tbody>
         </table>
+      </section>
+
+      <!-- Live Metrics Dashboard -->
+      <section class="glass-panel metrics-section" id="metricsSection" style="display:none">
+        <div class="card-header">
+          <div class="card-header-left">
+            <span class="card-icon">📈</span>
+            <h3>Live Platform Metrics</h3>
+          </div>
+          <button class="btn-secondary" id="refreshMetrics" style="font-size:0.8rem;padding:0.4rem 0.8rem;">↻
+            Refresh</button>
+        </div>
+        <div class="metrics-grid" id="metricsGrid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODALS -->
+  <!-- ============================================================ -->
+
+  <!-- Override Modal -->
+  <div id="overrideModal" class="modal-overlay">
+    <div class="modal-box">
+      <h3 class="modal-title">Record Override / False Positive</h3>
+      <p class="text-dim" style="font-size:0.85rem;margin-bottom:1.25rem;">Provide auditable justification for
+        overriding the automated verdict.</p>
+      <form id="overrideForm">
+        <input type="hidden" id="modalScanId">
+        <div class="form-group">
+          <label>Target</label>
+          <input type="text" id="modalTarget" class="form-control" readonly>
+        </div>
+        <div class="form-group">
+          <label>Feedback Type</label>
+          <select id="modalFeedbackType" class="form-control">
+            <option value="false_positive">False Positive — Flagged as threat but actually safe</option>
+            <option value="false_negative">False Negative — Marked safe but actually malicious</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Override Verdict</label>
+          <select id="modalOverrideVerdict" class="form-control">
+            <option value="BENIGN">BENIGN (Safe)</option>
+            <option value="PHISHING">PHISHING (Threat)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Analyst Notes</label>
+          <textarea id="modalAnalystNotes" class="form-control" rows="3"
+            placeholder="Explain why this verdict should be overridden…" required></textarea>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:0.75rem;">
+          <button type="button" id="modalCloseBtn" class="btn-secondary">Cancel</button>
+          <button type="submit" class="btn-primary">Save Override</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Docs / Judge Pitch Modal -->
+  <div id="docsModal" class="modal-overlay">
+    <div class="docs-modal-box">
+      <div class="docs-modal-header">
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <span style="font-size:1.5rem;">📖</span>
+          <div>
+            <h3 style="font-size:1.1rem;font-weight:800;color:#fff;margin:0;">ShieldCheck — Judge & Architecture Guide
+            </h3>
+            <span style="font-size:0.72rem;font-family:var(--font-mono);color:var(--accent-cyan);">PROBLEM P12 ·
+              WEB-A-THON 2.0 · NIST XAI + SECURITY HARDENED</span>
+          </div>
+        </div>
+        <button type="button" id="docsCloseBtn" class="btn-secondary" style="padding:0.4rem 0.85rem;font-size:0.8rem;">✕
+          Close</button>
       </div>
-
-      <!-- JUDGE Q&A -->
-      <div id="docPaneQA" class="docs-pane">
-        <div class="doc-section-title">❓ Judge Q&A — Basic to Advanced</div>
-        <div class="doc-section-desc">Click any question to see the answer.</div>
-        <div class="doc-accordion open"><div class="doc-acc-header"><span>Q1: Isn't Gmail / Outlook already doing this?</span><span class="acc-icon">▼</span></div><div class="doc-acc-body">Gmail and Outlook catch known spam but have critical blind spots: 1) QR codes (Quishing) bypass text-only scanners. 2) Links behind Cloudflare CAPTCHA walls make bots give up and falsely mark sites "Clean". 3) They never explain WHY something was blocked. ShieldCheck uses multi-modal detection (ML + CV + LLM), handles all 4 evasion types, and gives every user a clear plain-English explanation.</div></div>
-        <div class="doc-accordion"><div class="doc-acc-header"><span>Q2: What is Quishing and why does it matter?</span><span class="acc-icon">▼</span></div><div class="doc-acc-body">Quishing = QR Code Phishing. Attackers send an email: "Your MFA session expired — scan this QR code on your phone." Corporate computers have firewalls; personal phones don't. ShieldCheck uses OpenCV computer vision to extract the hidden URL from QR code images before the user ever picks up their phone.</div></div>
-        <div class="doc-accordion"><div class="doc-acc-header"><span>Q3: How do you scale to 10x / 100x load?</span><span class="acc-icon">▼</span></div><div class="doc-acc-body">Verified with load_test.py: 10x (10 concurrent): 2,588ms, 0 errors. 100x (/api/scan/batch): 2,685ms for 100 URLs = 26ms/URL avg. Rate limiting correctly throttled 16/20 rapid requests. For 1000x: deploy N stateless replicas behind nginx/Cloudflare load balancer — same code, no changes needed.</div></div>
-        <div class="doc-accordion"><div class="doc-acc-header"><span>Q4: What are your security controls?</span><span class="acc-icon">▼</span></div><div class="doc-acc-body">Rate limiting (HTTP 429), SSRF guard (blocks 192.168.x, 10.x, 127.x, localhost, file://, AWS metadata), input validation (URL 2048 char cap, file size limits), PII protection (SHA-256 hashed bodies, 30-day auto-purge), no hardcoded secrets. All verifiable: submit http://192.168.1.1 to get a 422 SSRF Blocked error live.</div></div>
-        <div class="doc-accordion"><div class="doc-acc-header"><span>Q5: What are the AI model's limitations?</span><span class="acc-icon">▼</span></div><div class="doc-acc-body">Honestly: 1) Newly registered domains with no feed history can slip past in first 24h. 2) Very low-res QR codes may fail OpenCV decode. 3) LLM adds 2-4s when Gemini API is active (mitigated by async execution). 4) Multilingual phishing not fully covered. Mitigations: OSINT feed correlation, 3-tier fallback (Gemini→Heuristics→Cache), and explicit UNKNOWN_GUARDED state for evasion walls.</div></div>
-        <div class="doc-accordion"><div class="doc-acc-header"><span>Q6: Why a simple mode AND analyst mode?</span><span class="acc-icon">▼</span></div><div class="doc-acc-body">The biggest gap in existing tools: they're all built for experts. 90% of phishing victims are regular employees, students, or parents — not security analysts. Simple mode gives them a yes/no in plain English with 3 action steps. Analyst mode gives SOC teams full forensic data. Same backend, same scan, two presentation layers — because accessibility and technical depth shouldn't be mutually exclusive.</div></div>
+      <div class="docs-tabs-nav">
+        <button type="button" class="docs-tab-btn active" data-pane="docPanePitch">🏆 Pitch</button>
+        <button type="button" class="docs-tab-btn" data-pane="docPaneAI">🧠 AI Architecture</button>
+        <button type="button" class="docs-tab-btn" data-pane="docPaneScalability">⚡ Scalability</button>
+        <button type="button" class="docs-tab-btn" data-pane="docPaneSecurity">🔒 Security</button>
+        <button type="button" class="docs-tab-btn" data-pane="docPaneDifferent">⚔️ Differentiators</button>
+        <button type="button" class="docs-tab-btn" data-pane="docPaneQA">❓ Judge Q&A</button>
       </div>
+      <div class="docs-content-area">
 
-    </div><!-- /docs-content-area -->
-  </div><!-- /docs-modal-box -->
-</div><!-- /docsModal -->
+        <!-- PITCH -->
+        <div id="docPanePitch" class="docs-pane active">
+          <div class="doc-section-title">🏆 The Pitch & Problem Statement</div>
+          <div class="doc-section-desc">Problem P12: Multi-Modal Phishing Email, URL & Malware Detection Platform</div>
+          <div class="doc-card highlight">
+            <h4 style="color:var(--accent-cyan);margin-bottom:0.5rem;">30-Second Pitch</h4>
+            <p style="font-size:0.9rem;color:#fff;line-height:1.6;">
+              "90% of cyberbreaches start with phishing — Colonial Pipeline, SolarWinds, MGM Resorts. Today's attackers
+              bypass Gmail and VirusTotal using <strong>QR codes (Quishing)</strong>, <strong>in-memory HTML
+                smuggling</strong>, and <strong>CAPTCHA evasion walls</strong>.<br><br>
+              <strong>ShieldCheck by ShieldCheck</strong> is the first platform designed for <em>every person</em>, not
+              just security experts. A parent, student, or employee gets a plain-English verdict in 1 second. An IT
+              analyst gets full malware attribution, MITRE ATT&amp;CK mapping, 8-vendor AV consensus, and a visual
+              Evidence Graph — all from the same tool, with zero data stored."
+            </p>
+          </div>
+          <div class="doc-card">
+            <h4 style="color:#fff;margin-bottom:0.5rem;">Who uses this?</h4>
+            <div
+              style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;font-size:0.85rem;">
+              <div
+                style="background:rgba(0,242,254,0.08);padding:0.75rem;border-radius:8px;border:1px solid rgba(0,242,254,0.2);">
+                👩‍💼 <strong>Employees</strong><br>Get a safe/unsafe verdict in plain English</div>
+              <div
+                style="background:rgba(0,242,254,0.08);padding:0.75rem;border-radius:8px;border:1px solid rgba(0,242,254,0.2);">
+                👨‍👩‍👧 <strong>Parents & Students</strong><br>No jargon, emoji-guided results</div>
+              <div
+                style="background:rgba(255,51,102,0.08);padding:0.75rem;border-radius:8px;border:1px solid rgba(255,51,102,0.2);">
+                🔐 <strong>IT Security Teams</strong><br>Full forensic analyst mode</div>
+              <div
+                style="background:rgba(121,40,202,0.08);padding:0.75rem;border-radius:8px;border:1px solid rgba(121,40,202,0.2);">
+                💻 <strong>Developers</strong><br>REST API, batch scan, Prometheus metrics</div>
+            </div>
+          </div>
+          <div class="doc-card">
+            <h4 style="color:#fff;margin-bottom:0.5rem;">📊 Real-World Performance</h4>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+              <div
+                style="background:rgba(0,242,254,0.1);border:1px solid rgba(0,242,254,0.3);border-radius:8px;padding:0.75rem 1.25rem;text-align:center;">
+                <div style="font-size:1.5rem;font-weight:800;font-family:var(--font-mono);color:var(--accent-cyan);">
+                  94.1%</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">Precision</div>
+              </div>
+              <div
+                style="background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.3);border-radius:8px;padding:0.75rem 1.25rem;text-align:center;">
+                <div style="font-size:1.5rem;font-weight:800;font-family:var(--font-mono);color:#00e676;">96.3%</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">Recall</div>
+              </div>
+              <div
+                style="background:rgba(121,40,202,0.1);border:1px solid rgba(121,40,202,0.3);border-radius:8px;padding:0.75rem 1.25rem;text-align:center;">
+                <div style="font-size:1.5rem;font-weight:800;font-family:var(--font-mono);color:#c084fc;">58</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">Tests Passing</div>
+              </div>
+              <div
+                style="background:rgba(255,179,0,0.1);border:1px solid rgba(255,179,0,0.3);border-radius:8px;padding:0.75rem 1.25rem;text-align:center;">
+                <div style="font-size:1.5rem;font-weight:800;font-family:var(--font-mono);color:#ffb300;">26ms</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">Avg/URL (100x batch)</div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-<script type="module" src="js/app.js"></script>
+        <!-- AI ARCHITECTURE -->
+        <div id="docPaneAI" class="docs-pane">
+          <div class="doc-section-title">🧠 AI Architecture — 4 Layers</div>
+          <div class="doc-section-desc">Three AI layers + NIST XAI explainability — all working together in one async
+            pipeline.</div>
+          <div class="doc-card highlight">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+              <h4 style="color:var(--accent-cyan);font-size:0.95rem;margin:0;">Layer 1: Random Forest ML Classifier</h4>
+              <span class="doc-pill">15 FEATURES · &lt;2ms</span>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-muted);">Extracts 15 structural features from every URL:
+              Shannon entropy, brand impersonation distance, suspicious TLDs, digit ratios, executable extensions.
+              Trained on 2,847 labeled samples. Precision: 94.1%.</p>
+          </div>
+          <div class="doc-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+              <h4 style="color:#fff;font-size:0.95rem;margin:0;">Layer 2: Computer Vision QR/Quishing Detector</h4><span
+                class="doc-pill"
+                style="color:#ffb300;border-color:rgba(255,179,0,0.3);background:rgba(255,179,0,0.1);">OPENCV</span>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-muted);">Uses cv2.QRCodeDetector with adaptive thresholding to
+              extract hidden destination URLs from images, PDFs, and email attachments before a user scans them on their
+              phone.</p>
+          </div>
+          <div class="doc-card purple-glow">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+              <h4 style="color:#c084fc;font-size:0.95rem;margin:0;">Layer 3: Google Gemini LLM + Offline Fallback</h4>
+              <span class="doc-pill"
+                style="color:#c084fc;border-color:rgba(121,40,202,0.4);background:rgba(121,40,202,0.15);">HYBRID
+                LLM</span>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-muted);">When a GEMINI_API_KEY is set, Gemini 1.5 Flash
+              analyzes social engineering psychology. When offline: instant heuristic engine (0 latency, 0 cost, 100%
+              private). 3-tier fallback: Gemini → Heuristics → Cached Intel.</p>
+          </div>
+          <div class="doc-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+              <h4 style="color:#fff;font-size:0.95rem;margin:0;">Layer 4: NIST SP 1270 Explainable AI (XAI)</h4><span
+                class="doc-pill">NIST COMPLIANT</span>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-muted);">Replaces opaque risk scores with 4 human-readable
+              pillars: Explanation, Meaningfulness, Accuracy, Knowledge Limits. Every verdict explains <em>why</em>
+              something was flagged, not just that it was.</p>
+          </div>
+        </div>
+
+        <!-- SCALABILITY -->
+        <div id="docPaneScalability" class="docs-pane">
+          <div class="doc-section-title">⚡ Scalability Architecture</div>
+          <div class="doc-section-desc">Verified 10x and 100x load tests with live evidence.</div>
+          <div class="doc-card highlight">
+            <h4 style="color:var(--accent-cyan);margin-bottom:0.75rem;">Load Test Results (run live: python
+              scripts/load_test.py)</h4>
+            <div
+              style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;font-family:var(--font-mono);font-size:0.82rem;">
+              <div
+                style="background:rgba(0,0,0,0.4);padding:0.75rem;border-radius:6px;border:1px solid rgba(0,242,254,0.2);">
+                <div style="color:var(--accent-cyan);">10x CONCURRENT</div>
+                <div style="color:#fff;font-size:1.1rem;font-weight:700;margin-top:0.25rem;">2,588ms total</div>
+                <div style="color:var(--text-dim);">0/10 errors · SSRF blocked ✅</div>
+              </div>
+              <div
+                style="background:rgba(0,0,0,0.4);padding:0.75rem;border-radius:6px;border:1px solid rgba(0,242,254,0.2);">
+                <div style="color:var(--accent-cyan);">100x BATCH</div>
+                <div style="color:#fff;font-size:1.1rem;font-weight:700;margin-top:0.25rem;">2,685ms / 26ms avg</div>
+                <div style="color:var(--text-dim);">/api/scan/batch endpoint ✅</div>
+              </div>
+              <div
+                style="background:rgba(0,0,0,0.4);padding:0.75rem;border-radius:6px;border:1px solid rgba(0,242,254,0.2);">
+                <div style="color:var(--accent-cyan);">RATE LIMITING</div>
+                <div style="color:#fff;font-size:1.1rem;font-weight:700;margin-top:0.25rem;">16/20 throttled</div>
+                <div style="color:var(--text-dim);">HTTP 429 + Retry-After ✅</div>
+              </div>
+              <div
+                style="background:rgba(0,0,0,0.4);padding:0.75rem;border-radius:6px;border:1px solid rgba(0,242,254,0.2);">
+                <div style="color:var(--accent-cyan);">LRU CACHE</div>
+                <div style="color:#fff;font-size:1.1rem;font-weight:700;margin-top:0.25rem;">&lt;10ms repeat</div>
+                <div style="color:var(--text-dim);">1000-entry, 5-min TTL ✅</div>
+              </div>
+            </div>
+          </div>
+          <div class="doc-card">
+            <h4 style="color:#fff;margin-bottom:0.5rem;">Scalability at 10x / 100x / 1000x</h4>
+            <ul style="padding-left:1.25rem;font-size:0.85rem;color:var(--text-muted);line-height:1.7;">
+              <li><strong>10x:</strong> Asyncio + ThreadPoolExecutor across all CPU cores. No bottleneck.</li>
+              <li><strong>100x:</strong> /api/scan/batch endpoint with asyncio.gather(). 100 URLs in &lt;3s.</li>
+              <li><strong>1000x:</strong> Deploy N stateless replicas behind a load balancer. SQLite → PostgreSQL for
+                multi-instance writes. LRU cache → Redis for shared state.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SECURITY -->
+        <div id="docPaneSecurity" class="docs-pane">
+          <div class="doc-section-title">🔒 Security Controls</div>
+          <div class="doc-section-desc">Hardened against real attacks — not just demo-safe.</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;">
+            <div class="doc-card">
+              <h4 style="color:var(--accent-cyan);font-size:0.9rem;margin-bottom:0.4rem;">⚡ Rate Limiting</h4>
+              <p style="font-size:0.82rem;color:var(--text-muted);">15 scans/min, 20 AI queries/min per IP. HTTP 429 +
+                Retry-After header. In-memory sliding-window limiter — no Redis needed for demo.</p>
+            </div>
+            <div class="doc-card">
+              <h4 style="color:var(--accent-cyan);font-size:0.9rem;margin-bottom:0.4rem;">🛡️ SSRF Guard</h4>
+              <p style="font-size:0.82rem;color:var(--text-muted);">Blocks RFC 1918 (10.x, 172.16.x, 192.168.x),
+                loopback (127.x, localhost), cloud metadata (169.254.169.254), and dangerous schemes (file://, ftp://,
+                gopher://).</p>
+            </div>
+            <div class="doc-card">
+              <h4 style="color:var(--accent-cyan);font-size:0.9rem;margin-bottom:0.4rem;">🔍 Input Validation</h4>
+              <p style="font-size:0.82rem;color:var(--text-muted);">URL max 2048 chars. Email max 10MB. Attachment max
+                5MB. Extension whitelist enforced server-side. Content validated before any processing.</p>
+            </div>
+            <div class="doc-card">
+              <h4 style="color:var(--accent-cyan);font-size:0.9rem;margin-bottom:0.4rem;">🔐 PII Protection</h4>
+              <p style="font-size:0.82rem;color:var(--text-muted);">Email bodies stored as SHA-256 hashes — never raw
+                content. Auto-purge: all scan records deleted after 30 days. URL targets truncated to 200 chars in logs.
+              </p>
+            </div>
+            <div class="doc-card">
+              <h4 style="color:var(--accent-cyan);font-size:0.9rem;margin-bottom:0.4rem;">📊 Structured Logging</h4>
+              <p style="font-size:0.82rem;color:var(--text-muted);">JSON log lines with timestamp, level, request_id,
+                latency_ms for every scan. Prometheus-compatible /api/metrics/prometheus endpoint for monitoring.</p>
+            </div>
+            <div class="doc-card">
+              <h4 style="color:var(--accent-cyan);font-size:0.9rem;margin-bottom:0.4rem;">🔑 No Hardcoded Secrets</h4>
+              <p style="font-size:0.82rem;color:var(--text-muted);">All API keys (GEMINI_API_KEY) via environment
+                variables. Default mode is fully offline — zero external dependencies required to run.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- DIFFERENTIATORS -->
+        <div id="docPaneDifferent" class="docs-pane">
+          <div class="doc-section-title">⚔️ Why We're Different</div>
+          <div class="doc-section-desc">Head-to-head vs Gmail, VirusTotal, and SpamAssassin.</div>
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th>Feature / Attack</th>
+                <th>Gmail / VirusTotal</th>
+                <th>ShieldCheck (Ours)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Target Audience</strong></td>
+                <td>Security professionals only</td>
+                <td>Everyone — employees, parents, students, IT</td>
+              </tr>
+              <tr>
+                <td><strong>Result Language</strong></td>
+                <td>Risk score (opaque number)</td>
+                <td>Plain English verdict + emoji + step-by-step actions</td>
+              </tr>
+              <tr>
+                <td><strong>Quishing / QR Codes</strong></td>
+                <td>❌ Text-only scanners miss QR images</td>
+                <td>✅ OpenCV QR decoder in every email and attachment</td>
+              </tr>
+              <tr>
+                <td><strong>HTML/SVG Smuggling</strong></td>
+                <td>❌ Misses in-memory Blob assembly</td>
+                <td>✅ AST/regex detects Blob(), createObjectURL(), atob()</td>
+              </tr>
+              <tr>
+                <td><strong>CAPTCHA Evasion</strong></td>
+                <td>❌ Bot blocked → marks site "Clean"</td>
+                <td>✅ UNKNOWN_GUARDED state — alerts analyst explicitly</td>
+              </tr>
+              <tr>
+                <td><strong>Malware Attribution</strong></td>
+                <td>Generic "Malware detected"</td>
+                <td>Exact family: LummaStealer, AsyncRAT, LockBit, etc.</td>
+              </tr>
+              <tr>
+                <td><strong>Explainability</strong></td>
+                <td>None</td>
+                <td>NIST SP 1270 XAI: 4 human-readable pillars</td>
+              </tr>
+              <tr>
+                <td><strong>Batch Scanning</strong></td>
+                <td>One URL at a time</td>
+                <td>/api/scan/batch: 100 URLs in &lt;3 seconds</td>
+              </tr>
+              <tr>
+                <td><strong>Security Controls</strong></td>
+                <td>Not your concern</td>
+                <td>SSRF guard, rate limiting, PII hashing, 58 tests</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- JUDGE Q&A -->
+        <div id="docPaneQA" class="docs-pane">
+          <div class="doc-section-title">❓ Judge Q&A — Basic to Advanced</div>
+          <div class="doc-section-desc">Click any question to see the answer.</div>
+          <div class="doc-accordion open">
+            <div class="doc-acc-header"><span>Q1: Isn't Gmail / Outlook already doing this?</span><span
+                class="acc-icon">▼</span></div>
+            <div class="doc-acc-body">Gmail and Outlook catch known spam but have critical blind spots: 1) QR codes
+              (Quishing) bypass text-only scanners. 2) Links behind Cloudflare CAPTCHA walls make bots give up and
+              falsely mark sites "Clean". 3) They never explain WHY something was blocked. ShieldCheck uses multi-modal
+              detection (ML + CV + LLM), handles all 4 evasion types, and gives every user a clear plain-English
+              explanation.</div>
+          </div>
+          <div class="doc-accordion">
+            <div class="doc-acc-header"><span>Q2: What is Quishing and why does it matter?</span><span
+                class="acc-icon">▼</span></div>
+            <div class="doc-acc-body">Quishing = QR Code Phishing. Attackers send an email: "Your MFA session expired —
+              scan this QR code on your phone." Corporate computers have firewalls; personal phones don't. ShieldCheck
+              uses OpenCV computer vision to extract the hidden URL from QR code images before the user ever picks up
+              their phone.</div>
+          </div>
+          <div class="doc-accordion">
+            <div class="doc-acc-header"><span>Q3: How do you scale to 10x / 100x load?</span><span
+                class="acc-icon">▼</span></div>
+            <div class="doc-acc-body">Verified with load_test.py: 10x (10 concurrent): 2,588ms, 0 errors. 100x
+              (/api/scan/batch): 2,685ms for 100 URLs = 26ms/URL avg. Rate limiting correctly throttled 16/20 rapid
+              requests. For 1000x: deploy N stateless replicas behind nginx/Cloudflare load balancer — same code, no
+              changes needed.</div>
+          </div>
+          <div class="doc-accordion">
+            <div class="doc-acc-header"><span>Q4: What are your security controls?</span><span class="acc-icon">▼</span>
+            </div>
+            <div class="doc-acc-body">Rate limiting (HTTP 429), SSRF guard (blocks 192.168.x, 10.x, 127.x, localhost,
+              file://, AWS metadata), input validation (URL 2048 char cap, file size limits), PII protection (SHA-256
+              hashed bodies, 30-day auto-purge), no hardcoded secrets. All verifiable: submit http://192.168.1.1 to get
+              a 422 SSRF Blocked error live.</div>
+          </div>
+          <div class="doc-accordion">
+            <div class="doc-acc-header"><span>Q5: What are the AI model's limitations?</span><span
+                class="acc-icon">▼</span></div>
+            <div class="doc-acc-body">Honestly: 1) Newly registered domains with no feed history can slip past in first
+              24h. 2) Very low-res QR codes may fail OpenCV decode. 3) LLM adds 2-4s when Gemini API is active
+              (mitigated by async execution). 4) Multilingual phishing not fully covered. Mitigations: OSINT feed
+              correlation, 3-tier fallback (Gemini→Heuristics→Cache), and explicit UNKNOWN_GUARDED state for evasion
+              walls.</div>
+          </div>
+          <div class="doc-accordion">
+            <div class="doc-acc-header"><span>Q6: Why a simple mode AND analyst mode?</span><span
+                class="acc-icon">▼</span></div>
+            <div class="doc-acc-body">The biggest gap in existing tools: they're all built for experts. 90% of phishing
+              victims are regular employees, students, or parents — not security analysts. Simple mode gives them a
+              yes/no in plain English with 3 action steps. Analyst mode gives SOC teams full forensic data. Same
+              backend, same scan, two presentation layers — because accessibility and technical depth shouldn't be
+              mutually exclusive.</div>
+          </div>
+        </div>
+
+      </div><!-- /docs-content-area -->
+    </div><!-- /docs-modal-box -->
+  </div><!-- /docsModal -->
+
+  <script type="module" src="js/app.js"></script>
 </body>
+
 </html>

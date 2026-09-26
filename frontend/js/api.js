@@ -1,5 +1,5 @@
 /**
- * AntiGravity Frontend API Client & Test Fixture Provider
+ * ShieldCheck Frontend API Client & Test Fixture Provider
  */
 
 const API_BASE = window.location.origin;

@@ -113,7 +113,7 @@ def main():
     args = parser.parse_args()
 
     print("=" * 65)
-    print("AntiGravity Dataset Ingestion & Heuristic Initialization")
+    print("ShieldCheck Dataset Ingestion & Heuristic Initialization")
     print(f"Host Profile: Apple Silicon M4 Pro ({TOTAL_CPU_CORES} Cores, Torch: {TORCH_DEVICE})")
     print("=" * 65)
 

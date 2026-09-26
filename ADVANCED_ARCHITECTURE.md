@@ -1,4 +1,4 @@
-# ShieldCheck by AntiGravity: Advanced Technical Architecture & Data Flow
+# ShieldCheck by ShieldCheck: Advanced Technical Architecture & Data Flow
 
 This document details the internal workings, data structures, and algorithmic flow of the ShieldCheck platform. It is designed to provide a comprehensive technical overview for system architects, security researchers, and AI models analyzing the system's provenance.
 

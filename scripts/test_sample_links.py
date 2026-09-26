@@ -54,7 +54,7 @@ async def run_batch_evaluation():
         return
 
     print("=" * 86)
-    print("AntiGravity Batch Detection & Security Evaluation")
+    print("ShieldCheck Batch Detection & Security Evaluation")
     print(f"Target File: {SAMPLE_FILE} ({len(links)} total malicious test links)")
     print("SAFETY RULE: Outbound payload execution and browser opening are STRICTLY DISABLED.")
     print("=" * 86 + "\n")

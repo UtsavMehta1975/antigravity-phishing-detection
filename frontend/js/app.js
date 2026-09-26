@@ -1,5 +1,5 @@
 /**
- * ShieldCheck by AntiGravity — Main Frontend Controller
+ * ShieldCheck by ShieldCheck — Main Frontend Controller
  * Universal UI: Landing Page → Simple Mode → Analyst Mode → Batch Mode
  */
 
@@ -380,15 +380,15 @@ function renderResults(r) {
 }
 
 function renderSimpleMode(r) {
-  const verdict    = r.verdict || 'UNKNOWN';
-  const score      = r.confidence_score ?? r.risk_score ?? 50;
-  const summary    = r.summary || r.recipient_summary || {};
-  const malware    = r.malware_analysis || {};
+  const verdict = r.verdict || 'UNKNOWN';
+  const score = r.confidence_score ?? r.risk_score ?? 50;
+  const summary = r.summary || r.recipient_summary || {};
+  const malware = r.malware_analysis || {};
 
   // Determine safe/danger/warning
-  const isDanger  = ['PHISHING', 'MALICIOUS', 'CRITICAL'].some(v => verdict.includes(v));
+  const isDanger = ['PHISHING', 'MALICIOUS', 'CRITICAL'].some(v => verdict.includes(v));
   const isWarning = verdict.includes('SUSPICIOUS') || verdict.includes('UNKNOWN');
-  const isSafe    = !isDanger && !isWarning;
+  const isSafe = !isDanger && !isWarning;
 
   // Big card
   const card = document.getElementById('verdictHeroCard');
@@ -397,9 +397,9 @@ function renderSimpleMode(r) {
   document.getElementById('verdictEmoji').textContent = isDanger ? '🔴' : isWarning ? '🟡' : '🟢';
 
   const headlines = {
-    danger:  ['Dangerous! Do not click.', 'This is a scam — stay away.', 'Warning: Active threat detected!'],
+    danger: ['Dangerous! Do not click.', 'This is a scam — stay away.', 'Warning: Active threat detected!'],
     warning: ['Suspicious — be careful.', 'Something looks off here.', 'Proceed with caution.'],
-    safe:    ['Looks safe! ✓', 'No threats detected.', 'This appears legitimate.']
+    safe: ['Looks safe! ✓', 'No threats detected.', 'This appears legitimate.']
   };
   const hSet = isDanger ? headlines.danger : isWarning ? headlines.warning : headlines.safe;
   document.getElementById('verdictHeadline').textContent = hSet[Math.floor(Math.random() * hSet.length)];
@@ -432,8 +432,8 @@ function renderSimpleMode(r) {
   const steps = isDanger
     ? ['Do NOT click the link or open any attachments.', 'Delete this email or message immediately.', 'If you already clicked, change your passwords right now and contact IT.']
     : isWarning
-    ? ['Do not enter any personal information on this site.', 'Contact your IT team if this was sent to you at work.', 'If in doubt, go directly to the official website instead.']
-    : ['You can safely proceed, but always stay alert.', 'Never enter passwords on sites you did not navigate to yourself.'];
+      ? ['Do not enter any personal information on this site.', 'Contact your IT team if this was sent to you at work.', 'If in doubt, go directly to the official website instead.']
+      : ['You can safely proceed, but always stay alert.', 'Never enter passwords on sites you did not navigate to yourself.'];
 
   document.getElementById('actionSteps').innerHTML = steps.map((s, i) =>
     `<div class="action-step"><div class="action-step-num">${i + 1}</div><div class="action-step-text">${s}</div></div>`
@@ -449,13 +449,13 @@ function renderSimpleMode(r) {
 }
 
 function renderAnalystMode(r) {
-  const verdict   = r.verdict || 'UNKNOWN';
-  const score     = r.confidence_score ?? r.risk_score ?? 50;
-  const ai        = r.ai_analysis || {};
-  const malware   = r.malware_analysis || {};
-  const xai       = r.nist_xai || {};
-  const graph     = r.evidence_graph || {};
-  const meta      = r._meta || {};
+  const verdict = r.verdict || 'UNKNOWN';
+  const score = r.confidence_score ?? r.risk_score ?? 50;
+  const ai = r.ai_analysis || {};
+  const malware = r.malware_analysis || {};
+  const xai = r.nist_xai || {};
+  const graph = r.evidence_graph || {};
+  const meta = r._meta || {};
 
   // Status bar
   const verdictEl = document.getElementById('analystVerdictVal');
@@ -507,10 +507,10 @@ function renderAnalystMode(r) {
 
   // NIST XAI
   if (xai.nist_explanation) {
-    document.getElementById('nistExplanation').textContent  = xai.nist_explanation || '';
+    document.getElementById('nistExplanation').textContent = xai.nist_explanation || '';
     document.getElementById('nistMeaningfulness').textContent = xai.nist_meaningfulness || '';
-    document.getElementById('nistAccuracy').textContent     = xai.nist_accuracy || '';
-    document.getElementById('nistLimits').textContent       = xai.nist_limits || '';
+    document.getElementById('nistAccuracy').textContent = xai.nist_accuracy || '';
+    document.getElementById('nistLimits').textContent = xai.nist_limits || '';
   }
 
   // Evidence Graph
@@ -519,8 +519,8 @@ function renderAnalystMode(r) {
   }
 
   // Store for override modal
-  document.getElementById('modalTarget').value  = r.target || '';
-  document.getElementById('modalScanId').value  = r.scan_id || '';
+  document.getElementById('modalTarget').value = r.target || '';
+  document.getElementById('modalScanId').value = r.scan_id || '';
 }
 
 function renderBatchResults(data) {
@@ -533,10 +533,10 @@ function renderBatchResults(data) {
   batchSection.style.display = 'block';
 
   // Summary badges
-  const total   = data.total_processed || 0;
-  const danger  = data.phishing_detected || 0;
-  const clean   = data.clean_count || 0;
-  const timeMs  = data.processing_time_ms || 0;
+  const total = data.total_processed || 0;
+  const danger = data.phishing_detected || 0;
+  const clean = data.clean_count || 0;
+  const timeMs = data.processing_time_ms || 0;
 
   document.getElementById('batchSummaryBadges').innerHTML = `
     <span class="tag-badge red">🔴 ${danger} Threats</span>
@@ -548,7 +548,7 @@ function renderBatchResults(data) {
   const results = data.results || [];
   const rows = results.map(r => {
     const verd = r.verdict || (r.error ? 'ERROR' : r.skipped ? 'SKIPPED' : '—');
-    const color = ['PHISHING','MALICIOUS'].some(v => String(verd).includes(v)) ? 'var(--status-red)' : verd === 'BENIGN' ? 'var(--status-emerald)' : 'var(--text-dim)';
+    const color = ['PHISHING', 'MALICIOUS'].some(v => String(verd).includes(v)) ? 'var(--status-red)' : verd === 'BENIGN' ? 'var(--status-emerald)' : 'var(--text-dim)';
     return `<tr>
       <td style="color:var(--text-muted);font-family:var(--font-mono);font-size:0.72rem;">#${(r.index ?? 0) + 1}</td>
       <td style="max-width:320px;overflow:hidden;text-overflow:ellipsis;">${r.url || r.target || '—'}</td>
@@ -632,8 +632,8 @@ function initAiCopilotChat() {
       const data = await res.json();
       const answer = data.ai_behavioral_insight || data.answer || data.response
         || (Array.isArray(data.ai_recommended_playbook)
-            ? data.ai_recommended_playbook.join(' → ')
-            : JSON.stringify(data, null, 2));
+          ? data.ai_recommended_playbook.join(' → ')
+          : JSON.stringify(data, null, 2));
       removeThinking();
       appendChat('bot', answer);
     } catch (err) {
@@ -708,7 +708,7 @@ async function loadAuditHistory() {
     if (!tbody || !scans?.length) return;
     tbody.innerHTML = scans.map(s => {
       const verd = s.verdict || '—';
-      const color = ['PHISHING','MALICIOUS'].some(v => verd.includes(v)) ? 'var(--status-red)' : verd === 'BENIGN' ? 'var(--status-emerald)' : 'var(--status-amber)';
+      const color = ['PHISHING', 'MALICIOUS'].some(v => verd.includes(v)) ? 'var(--status-red)' : verd === 'BENIGN' ? 'var(--status-emerald)' : 'var(--status-amber)';
       return `<tr>
         <td style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">${s.id?.substring(0, 16) || '--'}</td>
         <td>${s.scan_type || '—'}</td>
@@ -785,8 +785,8 @@ async function initTelemetry() {
    ================================================================ */
 function openOverrideModal() {
   if (currentScanResult) {
-    document.getElementById('modalTarget').value  = currentScanResult.target || '';
-    document.getElementById('modalScanId').value  = currentScanResult.scan_id || '';
+    document.getElementById('modalTarget').value = currentScanResult.target || '';
+    document.getElementById('modalScanId').value = currentScanResult.scan_id || '';
   }
   document.getElementById('overrideModal').classList.add('open');
 }
@@ -796,11 +796,11 @@ function closeOverrideModal() {
 
 async function handleOverrideSubmit(e) {
   e.preventDefault();
-  const scanId  = document.getElementById('modalScanId').value;
-  const target  = document.getElementById('modalTarget').value;
-  const feedbackType   = document.getElementById('modalFeedbackType').value;
+  const scanId = document.getElementById('modalScanId').value;
+  const target = document.getElementById('modalTarget').value;
+  const feedbackType = document.getElementById('modalFeedbackType').value;
   const overrideVerdict = document.getElementById('modalOverrideVerdict').value;
-  const notes   = document.getElementById('modalAnalystNotes').value;
+  const notes = document.getElementById('modalAnalystNotes').value;
   try {
     await ApiClient.submitFeedback(scanId, target, feedbackType, overrideVerdict, notes);
     closeOverrideModal();
@@ -834,7 +834,7 @@ async function loadDailyQuote() {
     const res = await fetch('https://dummyjson.com/quotes/random');
     if (!res.ok) throw new Error('API Error');
     const data = await res.json();
-    
+
     quoteEl.textContent = `"${data.quote}"`;
     authorEl.textContent = `— ${data.author}`;
   } catch (err) {

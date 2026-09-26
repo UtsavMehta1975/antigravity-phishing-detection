@@ -1,41 +1,63 @@
-# ShieldCheck: Explained for a 12-Year-Old! 🐶🛡️
+# ShieldCheck: Engineering & Logic Breakdown (For SWEs)
 
-Imagine the internet is a massive city. There are good places (like schools and parks) and bad places (like dark alleys where scammers hang out). 
+ShieldCheck is a multi-modal, highly scalable phishing and malware detection engine. Unlike standard email gateways that rely purely on text-based heuristics, this platform handles modern evasion tactics (like Quishing and HTML Smuggling) by piping inputs through a concurrent AI, Computer Vision, and Threat Intelligence pipeline.
 
-Every day, people get emails or messages that say things like *"Click here for free V-Bucks!"* or *"Your account is locked!"* These are traps. If you click them, the bad guys can steal your passwords or put a virus on your computer. 
-
-**ShieldCheck is like a super-smart robot guard dog.** 
-
-Before you open a link or a file, you give it to the robot guard dog. The dog sniffs it, looks at it with a magnifying glass, and asks 8 other robot dogs what they think. It does all of this in **less than 1 second**, and then tells you in plain English: *"Yes, this is safe to click!"* or *"No! This is a scam trying to steal your password!"*
+Here is the technical logic and stack breakdown of how the system processes an incoming threat in under 1 second.
 
 ---
 
-## 💻 How We Built It (Our Tech Stack)
+## 💻 1. The Tech Stack Overview
 
-Here are the tools we used to build our robot guard dog, explained simply:
-
-1. **Python (FastAPI) - The Brain 🧠**
-   * This is the main engine running in the background. It is super fast and coordinates all the AI models and security checks.
-
-2. **JavaScript & CSS - The Face 🧑‍💻**
-   * This is what you see on the screen. We made it look really cool and futuristic, but also very easy to use. No complicated menus—just a box to paste your link into.
-
-3. **Random Forest (Machine Learning) - The Detective 🕵️‍♂️**
-   * This is a type of Artificial Intelligence. We trained it on thousands of fake links. Now, it can look at a brand new link and guess if it's a scam just by looking at how the words are spelled!
-
-4. **OpenCV (Computer Vision) - The Eyes 👀**
-   * Bad guys often hide links inside QR codes (those square barcodes you scan with your phone). Our computer vision can "see" the QR code in an email and read the hidden link before you even pick up your phone.
-
-5. **SQLite - The Notebook 📓**
-   * This is our database. It's like a fast notebook where the system writes down everything it checks. We set it to automatically erase everything after 30 days to protect people's privacy.
-
-6. **Render - The House 🏠**
-   * This is where our project lives on the internet so that anyone in the world can visit our website and use it!
+1. **Backend API:** FastAPI (Python 3.9+)
+   - Chosen for its native asynchronous capabilities (`asyncio`) to handle concurrent API calls to 8 different threat feeds and LLM services without blocking the main event loop.
+2. **Frontend UI:** Vanilla JS + CSS3 + HTML5
+   - Purposefully framework-less to ensure a zero-dependency, ultra-fast initial load time. It uses a dual-view controller (Simple/Analyst modes) driven by DOM state toggles.
+3. **Machine Learning:** Scikit-Learn (Random Forest)
+   - A lightweight structural classifier trained on 2,847 labeled samples (benign vs. phishing URLs). It computes features like Shannon entropy, digit ratios, and brand impersonation distance in `<2ms`.
+4. **Computer Vision:** OpenCV (`cv2`)
+   - Used to extract hidden destination URLs from QR codes inside email attachments (Quishing) before the payload can hit a mobile device.
+5. **Generative AI:** Google Gemini 1.5 Flash
+   - Acts as the Social Engineering behavioral analyzer. It doesn't look at code; it looks at the psychology of the text (e.g., detecting artificial urgency or coercion).
+6. **Data Storage:** SQLite (WAL Mode)
+   - Configured with Write-Ahead Logging to prevent database locking during high-throughput batch scans.
 
 ---
 
-## 🎯 Why is this special?
+## ⚙️ 2. The Core Execution Logic
 
-Most security tools are built for computer experts and use confusing words like *"Heuristic signature detected."* 
+When a payload (URL, EML, or File) hits the Edge Router, the following pipeline executes:
 
-ShieldCheck is special because it is built for **everyone**—kids, parents, and grandparents. It doesn't just block a threat; it uses a red emoji 🔴 and tells you exactly what is wrong and what you should do next!
+### Step 1: Security Gateway (Pre-Processing)
+* **Rate Limiting:** A sliding-window rate limiter (in-memory) caps requests per IP to prevent DDoS or API abuse.
+* **SSRF Guard:** Before making any outbound requests, the URL is parsed. If the resolved IP belongs to an RFC 1918 private block (`10.x`, `192.168.x`) or loopback (`127.x`), the request is aggressively dropped with a `422 Unprocessable Entity`.
+* **PII Scrubbing:** If an email is uploaded, the body is stripped of PII and hashed (SHA-256) before storage.
+
+### Step 2: The Multi-Engine Fan-out
+The backend uses `asyncio.gather()` to execute three distinct analysis layers concurrently:
+
+1. **Static Analysis & Heuristics:**
+   * Uses AST/Regex to detect HTML smuggling indicators (e.g., in-memory Blob assembly using `createObjectURL()` or `atob()`).
+2. **Machine Learning Feature Extraction:**
+   * Calculates structural anomalies (e.g., high Shannon entropy in the domain name indicating a DGA - Domain Generation Algorithm).
+3. **Threat Intelligence Consensus:**
+   * Polls 8 enterprise AV engines (simulated/cached via VirusTotal paradigms) to achieve a deterministic verdict based on signature matching (e.g., identifying a specific threat family like *LummaStealer* mapped to MITRE ATT&CK `T1566`).
+
+### Step 3: Synthesis & XAI Generation
+Once the async tasks resolve, the data is passed to the **NIST SP 1270 Explainable AI (XAI)** module. 
+Instead of returning an opaque "Risk Score = 95", the system maps the outputs into 4 human-readable pillars:
+1. **Explanation:** Why was it flagged? (e.g., *Computer Vision decoded a hidden QR code redirecting to a known credential harvester.*)
+2. **Meaningfulness:** What does this mean for the user?
+3. **Accuracy:** What is the confidence interval?
+4. **Knowledge Limits:** What couldn't the model verify? (e.g., *Site hidden behind a Cloudflare CAPTCHA wall.*)
+
+### Step 4: Batch Processing & Caching
+To handle enterprise-scale loads (e.g., an entire SOC team dumping logs), the `/api/scan/batch` endpoint processes up to 100 URLs in parallel. 
+* To prevent duplicate processing overhead, results are stored in an **LRU (Least Recently Used) Cache** with a 5-minute TTL. 
+* Subsequent hits for the same threat hash return in `<10ms`.
+
+---
+
+## 🎯 Why This Architecture Wins
+
+Standard security tools fail at the presentation layer—they output JSON walls or generic "Blocked" screens. 
+This architecture decouples the complex, highly-concurrent detection backend from a presentation layer that can dynamically cast the exact same underlying JSON payload into an Emoji-driven interface (for non-technical users) or a full Forensic Evidence Graph (for SOC analysts). 

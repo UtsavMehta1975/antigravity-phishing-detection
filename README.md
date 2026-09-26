@@ -1,4 +1,4 @@
-# AntiGravity: Phishing Email & URL Provenance Detection Platform (Problem P12)
+# ShieldCheck: Phishing Email & URL Provenance Detection Platform (Problem P12)
 
 A production-grade, end-to-end Phishing Email, URL, and Smuggled Payload Detection Platform designed for high-throughput cyber defense, featuring **Directed Evidence Graph Provenance**, **NIST-Compliant Explainable AI (XAI)**, and a **Dual-Layer Interface** (Executive Recipient View & SOC Analyst Forensics).
 

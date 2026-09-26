@@ -1,5 +1,5 @@
 """
-AntiGravity Phishing Email & URL Detection Platform Launcher.
+ShieldCheck Phishing Email & URL Detection Platform Launcher.
 Optimized for Apple Silicon MacBook M4 Pro (12 CPU Cores, 24 GB RAM, MPS).
 """
 import os
@@ -20,7 +20,7 @@ from scripts.ingest_datasets import ingest_url_dataset, ingest_email_dataset, SA
 
 def print_banner():
     print("=" * 72)
-    print("      AntiGravity Phishing Detection & Provenance Engine")
+    print("      ShieldCheck Phishing Detection & Provenance Engine")
     print("              Problem P12 - End-to-End Platform")
     print("=" * 72)
     print(f"[*] Hardware Profile: Apple Silicon M4 Pro ({'macOS ARM64' if IS_MACOS and IS_ARM else 'Host'})")

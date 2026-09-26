@@ -78,7 +78,7 @@ async def _async_single_scan(url: str, idx: int) -> Dict[str, Any]:
 
 async def run_load_test():
     print("\n" + "="*70)
-    print("  🔬 AntiGravity Phishing Platform — Scalability Load Test")
+    print("  🔬 ShieldCheck Phishing Platform — Scalability Load Test")
     print("="*70)
 
     # -----------------------------------------------------------------------
