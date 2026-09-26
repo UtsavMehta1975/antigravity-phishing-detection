@@ -4,8 +4,62 @@ Follows multi-hop redirects and explicitly classifies destinations guarded by
 CAPTCHAs, Cloudflare challenges, or bot detection walls as UNKNOWN rather than trusting them.
 """
 import re
+import ipaddress
+import socket
 from typing import Dict, Any, List
 import httpx
+
+# Comprehensive list of private and loopback IP ranges
+PRIVATE_NETWORKS = [
+    ipaddress.ip_network("0.0.0.0/8"),
+    ipaddress.ip_network("10.0.0.0/8"),
+    ipaddress.ip_network("100.64.0.0/10"),
+    ipaddress.ip_network("127.0.0.0/8"),
+    ipaddress.ip_network("169.254.0.0/16"),
+    ipaddress.ip_network("172.16.0.0/12"),
+    ipaddress.ip_network("192.0.0.0/24"),
+    ipaddress.ip_network("192.0.2.0/24"),
+    ipaddress.ip_network("192.88.99.0/24"),
+    ipaddress.ip_network("192.168.0.0/16"),
+    ipaddress.ip_network("198.18.0.0/15"),
+    ipaddress.ip_network("198.51.100.0/24"),
+    ipaddress.ip_network("203.0.113.0/24"),
+    ipaddress.ip_network("224.0.0.0/4"),
+    ipaddress.ip_network("240.0.0.0/4"),
+    ipaddress.ip_network("255.255.255.255/32"),
+    ipaddress.ip_network("::/128"),
+    ipaddress.ip_network("::1/128"),
+    ipaddress.ip_network("fc00::/7"),
+    ipaddress.ip_network("fe80::/10"),
+]
+
+def is_private_ip(ip_str: str) -> bool:
+    try:
+        ip = ipaddress.ip_address(ip_str)
+        return any(ip in net for net in PRIVATE_NETWORKS)
+    except ValueError:
+        return True # Treat invalid IPs as dangerous
+
+class SSRFProtectionTransport(httpx.AsyncHTTPTransport):
+    async def handle_async_request(self, request, *args, **kwargs):
+        host = request.url.host
+        port = request.url.port or (443 if request.url.scheme == "https" else 80)
+        
+        # Block prohibited destination ports (e.g. SSH, databases)
+        if port not in [80, 443, 8080]:
+            raise httpx.ConnectError(f"Prohibited port: {port}")
+
+        # Resolve DNS manually to check the destination IP
+        try:
+            addr_info = socket.getaddrinfo(host, port, socket.AF_UNSPEC, socket.SOCK_STREAM)
+            for item in addr_info:
+                ip = item[4][0]
+                if is_private_ip(ip):
+                    raise httpx.ConnectError("SSRF Attempt Blocked: Private IP detected at socket layer.")
+        except socket.gaierror:
+            raise httpx.ConnectError("DNS resolution failed.")
+
+        return await super().handle_async_request(request, *args, **kwargs)
 
 CHALLENGE_KEYWORDS = [
     r"cf-turnstile",
@@ -74,7 +128,7 @@ class DestinationResolver:
             current_url = initial_url
             hops = []
 
-            async with httpx.AsyncClient(timeout=self.timeout, follow_redirects=False) as client:
+            async with httpx.AsyncClient(transport=SSRFProtectionTransport(), timeout=self.timeout, follow_redirects=False) as client:
                 for _ in range(self.max_redirects):
                     try:
                         resp = await client.get(current_url)
