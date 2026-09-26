@@ -27,6 +27,9 @@ def get_torch_device() -> str:
 
 TORCH_DEVICE = get_torch_device()
 
+# API Keys
+VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY", "e5ad2f63b34f310b77ed820af9c28de50cd7e25d66c0c114719c63aba16ab559")
+
 # Paths & Settings
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DATA_DIR = os.path.join(BASE_DIR, "datasets")

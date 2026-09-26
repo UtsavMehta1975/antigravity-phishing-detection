@@ -12,6 +12,7 @@ from backend.threat_intel.urlhaus import URLhausConnector
 from backend.threat_intel.safebrowsing import SafeBrowsingClient
 from backend.threat_intel.destination_resolver import DestinationResolver
 from backend.database import get_threat_cache
+from backend.threat_intel.virustotal import VirusTotalClient
 
 class ThreatFeedManager:
     def __init__(self):
@@ -21,6 +22,7 @@ class ThreatFeedManager:
         self.urlhaus = URLhausConnector()
         self.safebrowsing = SafeBrowsingClient()
         self.resolver = DestinationResolver()
+        self.virustotal = VirusTotalClient()
 
     async def enrich_url(self, target_url: str, domain: str) -> Dict[str, Any]:
         """Runs all threat intel enrichment and destination resolving in parallel."""
@@ -34,6 +36,7 @@ class ThreatFeedManager:
         phishtank_task = asyncio.create_task(self.phishtank.check_url(target_url))
         urlhaus_task = asyncio.create_task(self.urlhaus.check_url(target_url))
         safebrowsing_task = asyncio.create_task(self.safebrowsing.check_url(target_url))
+        vt_task = asyncio.create_task(self.virustotal.check_url(target_url))
 
         # Synchronous OpenPhish memory check
         openphish_result = self.openphish.check_url(target_url)
@@ -51,8 +54,8 @@ class ThreatFeedManager:
             }
 
         # Gather async tasks
-        resolve_res, rdap_res, pt_res, uh_res, sb_res = await asyncio.gather(
-            resolve_task, rdap_task, phishtank_task, urlhaus_task, safebrowsing_task,
+        resolve_res, rdap_res, pt_res, uh_res, sb_res, vt_res = await asyncio.gather(
+            resolve_task, rdap_task, phishtank_task, urlhaus_task, safebrowsing_task, vt_task,
             return_exceptions=True
         )
 
@@ -61,6 +64,7 @@ class ThreatFeedManager:
         pt_data = pt_res if isinstance(pt_res, dict) else {}
         uh_data = uh_res if isinstance(uh_res, dict) else {}
         sb_data = sb_res if isinstance(sb_res, dict) else {}
+        vt_data = vt_res if isinstance(vt_res, dict) else {}
 
         threat_matches = []
         if openphish_result.get("matched"):
@@ -73,6 +77,8 @@ class ThreatFeedManager:
             threat_matches.append(sb_data)
         if kaggle_result.get("matched"):
             threat_matches.append(kaggle_result)
+        if vt_data.get("matched"):
+            threat_matches.append(vt_data)
 
         return {
             "resolution": resolve_data,
