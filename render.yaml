@@ -1,13 +1,27 @@
 services:
   - type: web
-    name: antigravity-phishing-detection
-    runtime: python
+    name: shieldcheck-backend
+    env: python
+    region: ohio
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: python run.py
-    autoDeploy: true
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: PYTHON_VERSION
-        value: 3.11.8
-      - key: PORT
-        value: 10000
+        value: 3.9.10
+      - key: GEMINI_API_KEY
+        sync: false # Set this manually in the Render dashboard
+    autoDeploy: true
+
+  - type: web
+    name: shieldcheck-frontend
+    env: static
+    region: ohio
+    plan: free
+    buildCommand: "echo 'No build needed for static files'"
+    staticPublishPath: ./frontend
+    autoDeploy: true
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://shieldcheck-backend.onrender.com/api/* # Proxy API requests to backend
