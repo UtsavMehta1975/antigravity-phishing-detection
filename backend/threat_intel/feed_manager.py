@@ -11,6 +11,7 @@ from backend.threat_intel.phishtank import PhishTankConnector
 from backend.threat_intel.urlhaus import URLhausConnector
 from backend.threat_intel.safebrowsing import SafeBrowsingClient
 from backend.threat_intel.destination_resolver import DestinationResolver
+from backend.database import get_threat_cache
 
 class ThreatFeedManager:
     def __init__(self):
@@ -37,6 +38,18 @@ class ThreatFeedManager:
         # Synchronous OpenPhish memory check
         openphish_result = self.openphish.check_url(target_url)
 
+        # Local Threat Cache Check (e.g. Kaggle Dataset)
+        kaggle_result = {}
+        normalized = target_url.lower().strip()
+        no_scheme = normalized.replace("http://", "").replace("https://", "")
+        cached = get_threat_cache(normalized) or get_threat_cache(no_scheme)
+        if cached and cached.get("is_malicious"):
+            kaggle_result = {
+                "matched": True,
+                "source": cached.get("source"),
+                "details": cached.get("details", {})
+            }
+
         # Gather async tasks
         resolve_res, rdap_res, pt_res, uh_res, sb_res = await asyncio.gather(
             resolve_task, rdap_task, phishtank_task, urlhaus_task, safebrowsing_task,
@@ -58,6 +71,8 @@ class ThreatFeedManager:
             threat_matches.append(uh_data)
         if sb_data.get("matched"):
             threat_matches.append(sb_data)
+        if kaggle_result.get("matched"):
+            threat_matches.append(kaggle_result)
 
         return {
             "resolution": resolve_data,
