@@ -16,7 +16,7 @@ RECOMMENDED_WORKERS = max(4, TOTAL_CPU_CORES)
 # MPS (Metal Performance Shaders) acceleration check
 def get_torch_device() -> str:
     try:
-        import torch
+        import torch  # type: ignore
         if torch.backends.mps.is_available():
             return "mps"
         elif torch.cuda.is_available():
