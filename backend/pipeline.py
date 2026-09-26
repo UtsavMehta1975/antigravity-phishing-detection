@@ -133,6 +133,34 @@ class DetectionPipeline:
 
         # 6. Aggregate Anomalies & Calculate Global Risk Score
         all_anomalies: List[Dict[str, Any]] = []
+        
+        # --- Top 50 Verified Domains Check ---
+        sender_email = email_data.get("from", "")
+        import re
+        domain_match = re.search(r'@([\w.-]+)', sender_email)
+        sender_domain = domain_match.group(1).lower() if domain_match else ""
+        
+        TOP_VERIFIED_DOMAINS = {
+            "gmail.com", "yahoo.com", "hotmail.com", "outlook.com", "aol.com",
+            "icloud.com", "apple.com", "microsoft.com", "amazon.com", "google.com",
+            "linkedin.com", "netflix.com", "paypal.com", "facebook.com", "twitter.com",
+            "instagram.com", "github.com", "slack.com", "salesforce.com", "zoom.us",
+            "dropbox.com", "box.com", "okta.com", "docusign.com", "adobe.com",
+            "protonmail.com", "zoho.com", "yandex.com", "mail.com", "gmx.com",
+            "live.com", "msn.com", "comcast.net", "verizon.net", "att.net",
+            "sbcglobal.net", "me.com", "mac.com", "bellsouth.net", "charter.net",
+            "earthlink.net", "cox.net", "optonline.net", "yahoo.co.uk", "yahoo.ca",
+            "yahoo.fr", "yahoo.de", "googlemail.com", "gov.in", "ac.in", "example.com"
+        }
+        
+        if sender_domain and sender_domain not in TOP_VERIFIED_DOMAINS:
+            all_anomalies.append({
+                "category": "UNVERIFIED_SENDER_DOMAIN",
+                "detail": f"Sender domain '{sender_domain}' is not in the Top 50 verified domains whitelist. Automatically blocked and flagged as malicious/spam.",
+                "severity": "CRITICAL",
+                "weight": 100.0
+            })
+        
         all_anomalies.extend(email_data.get("anomalies", []))
         for att in attachment_results:
             all_anomalies.extend(att.get("anomalies", []))
