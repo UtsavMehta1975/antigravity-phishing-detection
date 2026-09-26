@@ -12,3 +12,12 @@ detection_platform.db-shm
 *.log
 malicious_phish.csv
 archive.zip
+ADVANCED_ARCHITECTURE.md
+ENGINEERING_EXPLAINER.md
+HACKATHON_WINNING_PITCH_AND_AI_DEEPDIVE.md
+PROJECT_EXPLAINER_FOR_JUDGES.md
+SIMPLE_EXPLAINER_FOR_JUDGES.md
+parallelai.md
+sampledetectionlinks.md
+virustotalapikey.md
+.env
