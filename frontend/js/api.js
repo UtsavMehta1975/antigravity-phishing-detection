@@ -65,8 +65,24 @@ export const ApiClient = {
   async getOverrides() {
     const res = await fetch(`${API_BASE}/api/overrides`);
     return res.json();
+  },
+
+  async scanBatch(urls, maxParallel = 20) {
+    const res = await fetch(`${API_BASE}/api/scan/batch`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ urls, max_parallel: maxParallel })
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  },
+
+  async getMetrics() {
+    const res = await fetch(`${API_BASE}/api/metrics`);
+    return res.json();
   }
 };
+
 
 /** Pre-packaged Sample Data Generators for 1-Click Testing */
 export const SampleFixtures = {
